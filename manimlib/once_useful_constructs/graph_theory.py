@@ -32,10 +32,10 @@ class Graph():
 
 class CubeGraph(Graph):
     """
-     5  7
+     5  6
       12
       03
-     4  6
+     4  7
     """
 
     def construct(self):
@@ -44,27 +44,31 @@ class CubeGraph(Graph):
             for r in (1, 2)
             for x, y in it.product([-r, r], [-r, r])
         ]
+        self.vertices[2], self.vertices[3] = \
+            self.vertices[3], self.vertices[2]    
+        self.vertices[6], self.vertices[7] = \
+            self.vertices[7], self.vertices[6]    
         self.edges = [
             (0, 1),
-            (0, 2),
-            (3, 1),
-            (3, 2),
+            (0, 3),
+            (2, 1),
+            (2, 3),
             (4, 5),
-            (4, 6),
-            (7, 5),
-            (7, 6),
+            (4, 7),
+            (6, 5),
+            (6, 7),
             (0, 4),
             (1, 5),
-            (2, 6),
             (3, 7),
+            (2, 6),
         ]
         self.region_cycles = [
-            [0, 2, 3, 1],
+            [0, 3, 2, 1],
             [4, 0, 1, 5],
-            [4, 6, 2, 0],
-            [6, 7, 3, 2],
-            [7, 5, 1, 3],
-            [4, 6, 7, 5],  # By convention, last region will be "outside"
+            [4, 7, 3, 0],
+            [7, 6, 2, 3],
+            [6, 5, 1, 2],
+            [4, 7, 6, 5],  # By convention, last region will be "outside"
         ]
 
 
