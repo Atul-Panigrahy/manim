@@ -20,37 +20,19 @@ class OurGraphTheory(Scene):
             for i, j in self.edge_vertices
         ]
 
-    def make_copies(self, mobjects):
-        for i in range(len(self.vertices)):
-            if self.vertices[i] in mobjects:
-                self.vertices[i] = self.vertices[i].copy()
-        for i in range(len(self.edges)):
-            if self.edges[i] in mobjects:
-                self.edges[i] = self.edges[i].copy()
+    def shift_graph(self, amount):
+        for v in self.vertices:
+            v.shift(amount)
+        for e in self.edges:
+            e.shift(amount)
 
-    def draw(self, mobjects, play=True, **kwargs):
-        anims = [ShowCreation(mobj, run_time=1.0) 
-                for mobj in mobjects]
-        if play:
-            self.play(*anims)
+    def draw(self, mobjects, **kwargs):
+        self.play(*[ShowCreation(mobj, run_time=1.0) 
+                    for mobj in mobjects])
 
-        return anims
-
-    def draw_copy(self, mobjects, **kwargs):
-        self.make_copies(mobjects)
-        self.draw(mobjects, **kwargs)
-
-    def erase_copy(self, mobjects, **kwargs):
-        self.make_copies(mobjects)
-        return self.erase(mobjects, **kwargs)
-
-    def erase(self, mobjects, play=True, **kwargs):
-        anims = [Uncreate(mobj, run_time=1.0) 
-                for mobj in mobjects]
-        if play:
-            self.play(*anims)
-
-        return anims
+    def erase(self, mobjects, **kwargs):
+        self.play(*[Uncreate(mobj, run_time=1.0) 
+                    for mobj in mobjects])
 
     def draw_edges(self):
         self.play(*[
