@@ -94,7 +94,8 @@ class OurGraphTheory(Scene):
         self.add(*self.edges)
 
         
-    def trace_cycle(self, cycle=None, color=RED, run_time=2.0):
+    def trace_cycle(self, cycle=None, play=True,
+                    color=RED, run_time=2.0):
         if cycle is None:
             cycle = self.graph.region_cycles[0]
         time_per_edge = run_time / len(cycle)
@@ -104,9 +105,12 @@ class OurGraphTheory(Scene):
             Line(self.points[i], self.points[j]).set_color(color)
             for i, j in zip(cycle, next_in_cycle)
         ]
-        for c in self.traced_cycle:
-            self.play(ShowCreation(c),
-                      run_time=run_time / len(self.traced_cycle))
+        if play:
+            for c in self.traced_cycle:
+                self.play(ShowCreation(c),
+                          run_time=run_time /
+                          len(self.traced_cycle))
+        return self.traced_cycle
 
     def annotate_edges(self, mobject, fade_in=True, **kwargs):
         angles = list(map(np.arctan, list(map(Line.get_slope, self.edges))))
