@@ -7,7 +7,8 @@ import numpy as np
 from manimlib.imports import *
 
 class OurGraphTheory(Scene):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, graph=None, *args, **kwargs):
+        self.graph = graph
         Scene.__init__(self, *args, **kwargs)
         
     def construct(self):
@@ -18,7 +19,15 @@ class OurGraphTheory(Scene):
             Line(self.points[i], self.points[j])
             for i, j in self.edge_vertices
         ]
-        
+
+    def draw(self, mobjects, **kwargs):
+        self.play(*[ShowCreation(mobj, run_time=1.0) 
+                    for mobj in mobjects])
+
+    def erase(self, mobjects, **kwargs):
+        self.play(*[Uncreate(mobj, run_time=1.0) 
+                    for mobj in mobjects])
+
     def draw_edges(self):
         self.play(*[
             ShowCreation(edge, run_time=1.0)
@@ -28,16 +37,27 @@ class OurGraphTheory(Scene):
     def draw_vertices(self, verts = None, **kwargs):
         if not verts:
             verts = self.vertices
-        self.clear()
+        #self.clear()
         self.play(*[ShowCreation(v, **kwargs)
                     for v in verts])
+
+    def erase_vertices(self, verts = None, **kwargs):
+        if not verts:
+            verts = self.vertices
+        self.play(*[Uncreate(v, **kwargs)
+                    for v in verts])
+
+    def accent_vertices(self, verts = None, color="lightgreen", **kwargs):
+        if not verts:
+            verts = self.vertices
         
-    def accent_vertices(self, color="lightgreen", **kwargs):
-        self.remove(*self.vertices)
-        start = self.vertices
+        points = [d.get_center() for d in verts]
+        
+        self.remove(*verts)
+        start = verts
         end = [Dot(point, radius=3 * DEFAULT_DOT_RADIUS,
                    color = color)
-            for point in self.points
+            for point in points
         ]
         self.play(*[Transform(
             s, e, rate_func=there_and_back,
@@ -46,14 +66,14 @@ class OurGraphTheory(Scene):
             for (s, e) in zip(start, end)
         ])
         self.remove(*start)
-        self.add(*self.vertices)
+        self.add(*verts)
 
     def accent_edges(self, color="lightgreen", **kwargs):
         self.remove(*self.edges)
         start = self.edges
         end = [
             Line(self.points[i], self.points[j],
-                 radius = 3 * DEFAULT_DOT_RADIUS,
+                 stroke_width = 2 * DEFAULT_STROKE_WIDTH,
                  color = color)
             for i, j in self.edge_vertices
         ]
