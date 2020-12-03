@@ -46,8 +46,8 @@ class IntroGraphScene(OurGraphTheory):
         self.wait(0.5)
         self.play(FadeOut(circle, run_time=0.5))
 
-        existence = TextMobject("Are there \\emph{any} planar embeddings of this graph?", size=0.1)
-        existence.scale(0.5)
+        existence = Text("Are there any planar embeddings of this graph?", font='Consolas', size=0.5)
+        #existence.scale(0.5)
         existence.next_to(nonplanar, DOWN)
-        self.play(Write(existence))
+        self.play(Write(existence, run_time=0.5))
         self.wait(2)
