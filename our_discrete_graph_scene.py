@@ -13,16 +13,25 @@ class OurGraphTheory(Scene):
         
     def construct(self):
         self.points = list(map(np.array, self.graph.vertices))
-        self.vertices = self.dots = [Dot(p) for p in self.points]
+        if not hasattr(self.graph, 'vcolors'):
+            self.vertices = self.dots = [Dot(p) for p in self.points]
+        else:
+            self.vertices = self.dots = [Dot(p, color=c) for (p,c) in zip(self.points, self.graph.vcolors)]
         self.edge_vertices = list(self.graph.edges)
         
         self.edges = self.lines = self.dashed = []
-        for i, j in self.edge_vertices:
-            if hasattr(self.graph, 'dashed') and (i, j) in self.graph.dashed:
-                l = DashedLine(self.points[i], self.points[j])
-            else:
-                l = Line(self.points[i], self.points[j])
-            self.edges.append(l)
+
+        if not hasattr(self.graph, 'eclasses'):
+            for i, j in self.edge_vertices:
+                if hasattr(self.graph, 'dashed') and (i, j) in self.graph.dashed:
+                    l = DashedLine(self.points[i], self.points[j])
+                else:
+                    l = Line(self.points[i], self.points[j])
+                self.edges.append(l)
+        else:
+            for (c, (i, j)) in zip(self.graph.eclasses, self.edge_vertices):
+                l = c(self.points[i], self.points[j])
+                self.edges.append(l)
         
 
     def shift_graph(self, amount):
