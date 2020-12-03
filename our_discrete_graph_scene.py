@@ -60,6 +60,10 @@ class OurGraphTheory(Scene):
         return self.erase(mobjects, **kwargs)
 
     def erase(self, mobjects, play=True, run_time=1.0, reverse=False, **kwargs):
+        if reverse:
+            mobjects = [mobj.set_points(mobj.get_points()[::-1])
+                        for mobj in mobjects]
+        
         anims = [Uncreate(mobj, run_time=run_time) 
                 for mobj in mobjects]
         if play:
