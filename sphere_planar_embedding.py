@@ -9,6 +9,25 @@ import random
 from manimlib.imports import *
 from our_discrete_graph_scene import *
 
+class FlatCubeGraph(CubeGraph):
+    """
+     5  6
+      12
+      03
+     4  7
+    """
+    def construct(self):
+        super().construct()
+        SCALE_FACTOR = 3
+        self.vertices = [
+            (v[0] * SCALE_FACTOR,
+             v[1] * SCALE_FACTOR,
+             v[2] * SCALE_FACTOR)
+            for v in self.vertices
+        ]
+    
+
+
 class CubeGraphOnSphere(CubeGraph):
     """
      5  6
@@ -27,10 +46,10 @@ class CubeGraphOnSphere(CubeGraph):
         xshift = -0.6
         yshift = -0.4
         self.vertices += [
-            (v[0] + xshift, v[1] + yshift, 1)
+            (v[0], v[1], 1)
             for v in self.vertices
         ]
-        SCALE_FACTOR = 1.4
+        SCALE_FACTOR = 1.5
         self.vertices = [
             (v[0] * SCALE_FACTOR,
              v[1] * SCALE_FACTOR,
@@ -53,7 +72,7 @@ class SphereToPlaneScene(OurGraphTheory):
         )
         self.wait(0.5)
         
-        planar = OurGraphTheory(CubeGraph())
+        planar = OurGraphTheory(FlatCubeGraph())
         planar.construct()
         planar_cycle = planar.trace_cycle(
             cycle = [4, 5, 6, 7],
@@ -198,14 +217,14 @@ class ThreeDSurfaceGraphScene(ThreeDScene):
 class SpherePlaneThing(ThreeDSurfaceGraphScene):
     def construct(self):
         axes = ThreeDAxes()
-        a=3
+        a=1.5
         trr = ParametricSurface(
             lambda u, v : np.array([
                  a * np.cos(TAU * u) * np.sin(TAU * v),
                  a * np.sin(TAU * u) * np.sin(TAU * v),
                  a * np.cos(TAU * v)
              ]),
-            resolution=(3, 6)).fade(0.7) #Resolution of the surfaces
+            resolution=(60, 64)).fade(0.7) #Resolution of the surfaces
         def project_onto_unit_cube(x, y, z):
             return np.array([x, y, z]) / max(abs(x),
                                              abs(y),
@@ -217,28 +236,32 @@ class SpherePlaneThing(ThreeDSurfaceGraphScene):
                  np.sin(TAU * u) * np.sin(TAU * v),
                  np.cos(TAU * v)
              ),
-            resolution=(3, 6)).fade(0.7) #Resolution of the surfaces
+            resolution=(60, 64)).fade(0.7) #Resolution of the surfaces
 
-        self.set_camera_orientation(phi=60 * DEGREES,theta=-45*DEGREES)
+        self.set_camera_orientation(phi=60 * DEGREES,theta=-60*DEGREES)
 
         self.add(axes)
 
         self.play(Write(trr))
         self.wait()
-        #self.play(Transform(trr, trr2))
-        #self.wait()
+        self.play(ReplacementTransform(trr, trr2))
+        self.wait()
         self.graph = CubeGraphOnSphere()
-        self.construct()
-"""
+        super().construct()
+
         self.draw(self.vertices)
         self.draw(self.edges)
         self.wait()
 
+        
         cycle = self.trace_cycle(
             cycle = [4, 5, 6, 7],
             run_time = 1
         )
         self.wait(0.5)
+
+        self.play(FadeOut(trr2))
+        self.remove(trr2)
         
         planar = OurGraphTheory(CubeGraph())
         planar.construct()
@@ -257,4 +280,4 @@ class SpherePlaneThing(ThreeDSurfaceGraphScene):
         ])
         self.wait()
 
-"""
+
