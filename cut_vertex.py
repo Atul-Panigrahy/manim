@@ -31,7 +31,7 @@ class CutVertexScene(OurGraphTheory):
         self.draw(self.edges)
         self.wait()
 
-        words = TextMobject("\\textbf{Not} 2-connected.")
+        words = TextMobject("\\emph{Not} 2-connected.", color=RED)
         words.next_to(self.edges[4], RIGHT*5)
     
         self.accent_vertices([self.vertices[2]])
