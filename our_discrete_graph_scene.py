@@ -18,7 +18,7 @@ class OurGraphTheory(Scene):
         
         self.edges = self.lines = self.dashed = []
         for i, j in self.edge_vertices:
-            if (i, j) in self.graph.dashed:
+            if hasattr(self.graph, 'dashed') and (i, j) in self.graph.dashed:
                 l = DashedLine(self.points[i], self.points[j])
             else:
                 l = Line(self.points[i], self.points[j])
