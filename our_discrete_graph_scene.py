@@ -148,7 +148,7 @@ class OurGraphTheory(Scene):
         next_in_cycle = it.cycle(cycle)
         next(next_in_cycle)  # jump one ahead
         self.traced_cycle = [
-            Line(self.points[i], self.points[j]).set_color(color)
+            Line(self.vertices[i].get_center(), self.vertices[j].get_center()).set_color(color)
             for i, j in zip(cycle, next_in_cycle)
         ]
         if play:
