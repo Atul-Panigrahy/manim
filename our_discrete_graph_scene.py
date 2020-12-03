@@ -15,10 +15,15 @@ class OurGraphTheory(Scene):
         self.points = list(map(np.array, self.graph.vertices))
         self.vertices = self.dots = [Dot(p) for p in self.points]
         self.edge_vertices = list(self.graph.edges)
-        self.edges = self.lines = [
-            Line(self.points[i], self.points[j])
-            for i, j in self.edge_vertices
-        ]
+        
+        self.edges = self.lines = self.dashed = []
+        for i, j in self.edge_vertices:
+            if (i, j) in self.graph.dashed:
+                l = DashedLine(self.points[i], self.points[j])
+            else:
+                l = Line(self.points[i], self.points[j])
+            self.edges.append(l)
+        
 
     def shift_graph(self, amount):
         for v in self.vertices:
@@ -34,8 +39,12 @@ class OurGraphTheory(Scene):
             if self.edges[i] in mobjects:
                 self.edges[i] = self.edges[i].copy()
 
-    def draw(self, mobjects, play=True, **kwargs):
-        anims = [ShowCreation(mobj, run_time=1.0) 
+    def draw(self, mobjects, play=True, run_time=1.0, reverse=False, **kwargs):
+        if reverse:
+            mobjects = [mobj.set_points(mobj.get_points()[::-1])
+                        for mobj in mobjects]
+        
+        anims = [ShowCreation(mobj, run_time=run_time) 
                 for mobj in mobjects]
         if play:
             self.play(*anims)
@@ -50,8 +59,8 @@ class OurGraphTheory(Scene):
         self.make_copies(mobjects)
         return self.erase(mobjects, **kwargs)
 
-    def erase(self, mobjects, play=True, **kwargs):
-        anims = [Uncreate(mobj, run_time=1.0) 
+    def erase(self, mobjects, play=True, run_time=1.0, reverse=False, **kwargs):
+        anims = [Uncreate(mobj, run_time=run_time) 
                 for mobj in mobjects]
         if play:
             self.play(*anims)

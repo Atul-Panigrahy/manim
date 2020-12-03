@@ -46,27 +46,35 @@ class PlanarSubgraphScene(OurGraphTheory):
 
         self.draw(self.vertices)
         self.draw(self.edges)
-        self.wait()
+        #self.wait()
 
 
         circle = Circle(radius=0.5, color=RED)
         self.play(ShowCreation(circle, run_time=0.5))
         self.play(FadeOut(circle, run_time=0.5))
-        self.wait()
+        #self.wait()
 
         planar = OurGraphTheory(PlanarK4())
         planar.construct()
-
         graph_trans = zip(self.vertices + self.edges, planar.vertices+planar.edges)
         self.play(*[Transform(mobj1, mobj2) for mobj1,mobj2 in graph_trans])
+        #self.wait()
+
+        to_delete = [self.vertices[2]]
+        to_delete += [self.edges[i] for i in range(1,len(self.edges))]
+        self.erase_copy(to_delete)
+        #self.wait()
+        to_return = [self.edges[4], self.edges[3]]
+        self.draw(to_return)
+        #self.wait()
+        
+        to_return = [self.vertices[2], self.edges[1], self.edges[2]]
+        anims = self.draw(to_return, play=False)
+        anims += self.erase_copy([self.edges[3]], play=False)
+        self.play(*anims)
         self.wait()
 
-
-
-
-
-
-
+        self.draw(self.edges)
 
 
 
