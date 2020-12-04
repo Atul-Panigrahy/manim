@@ -130,6 +130,25 @@ class OurGraphTheory(Scene):
         self.remove(*start)
         self.add(*self.edges)
 
+    # equivalent to trace_cycle, but doesn't
+    # close the loop
+    def trace_path(self, path=None, play=True,
+                   color=RED, run_time=2.0):
+        if path is None:
+            path = self.graph.region_paths[0]
+        time_per_edge = run_time / len(path)
+        next_in_path = it.cycle(path)
+        next(next_in_path)  # jump one ahead
+        traced_path = [
+            Line(self.points[i], self.points[j]).set_color(color)
+            for i, j in zip(path, next_in_path)
+        ][:-1]
+        if play:
+            for c in traced_path:
+                self.play(ShowCreation(c),
+                          run_time=run_time /
+                          len(traced_path))
+        return traced_path
         
     def trace_cycle(self, cycle=None, play=True,
                     color=RED, run_time=2.0):
