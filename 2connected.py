@@ -72,7 +72,7 @@ class TwoConnectedLemma(OurGraphTheory):
     def construct(self):
         self.graph = TwoConnectedLemmaBase()
         super().construct()
-        self.shift_graph(1.5*LEFT)
+        self.shift_graph(DOWN + LEFT*2.5)
         
         #--------- Base Case ----------------------
 
@@ -82,6 +82,15 @@ class TwoConnectedLemma(OurGraphTheory):
                             TextMobject("$v$").next_to(v, DR))
         self.play(Write(u_label), Write(v_label), *self.draw([u,v], play=False))
         #self.wait(2)
+
+        thm = TextMobject("Theorem:\\\\ in a $2$-connected graph, \\\\ any pair of vertices \\\\ is contained in a cycle.", alignment="\\justify")
+        thm.scale(0.75)
+        thm.shift(RIGHT*4)
+        self.play(Write(thm, run_time=0.5))
+
+        base_case = TextMobject("Base Case: $u,v$ are adjacent")
+        base_case.shift(UP*3)
+        self.play(Write(base_case))
 
         #Draw then erase edge from u to v
         self.draw([self.edges[0]])
@@ -110,7 +119,10 @@ class TwoConnectedLemma(OurGraphTheory):
         #------------------ Inductive Step --------------------
         self.graph =TwoConnectedInductive()
         super().construct()
-        self.shift_graph(1.5*LEFT)
+        self.shift_graph(DOWN + LEFT*2.5)
+
+        inductive_case = TextMobject("Inductive Step: $u,v$ have distance $d+1$")
+        inductive_case.shift(UP*3)
 
         # Transition to new graph
         new_u, new_v = self.vertices[0], self.vertices[5]
@@ -120,7 +132,8 @@ class TwoConnectedLemma(OurGraphTheory):
             ReplacementTransform(u, new_u),
             ReplacementTransform(v, new_v),
             ReplacementTransform(u_label, new_u_lab),
-            ReplacementTransform(v_label, new_v_lab)
+            ReplacementTransform(v_label, new_v_lab),
+            Transform(base_case, inductive_case)
         ]
         self.play(*inductive_trans)
 
