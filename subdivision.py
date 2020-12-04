@@ -60,6 +60,10 @@ class PlanarSubgraphScene(OurGraphTheory):
         self.play(*[Transform(mobj1, mobj2) for mobj1,mobj2 in graph_trans])
         #self.wait()
 
+        subgraph_words = TextMobject("Subgraphs of a planar graph are planar.")
+        subgraph_words.next_to(self.vertices[1], UP*2)
+        self.play(Write(subgraph_words))
+
         to_delete = [self.vertices[2]]
         to_delete += [self.edges[i] for i in range(1,len(self.edges))]
         self.erase_copy(to_delete)
@@ -72,9 +76,56 @@ class PlanarSubgraphScene(OurGraphTheory):
         anims = self.draw(to_return, play=False)
         anims += self.erase_copy([self.edges[3]], play=False)
         self.play(*anims)
+        self.wait(2)
+
+        subdivision_words = TextMobject("Subdivisions of a planar graph are planar.")
+        subdivision_words.next_to(self.vertices[1], UP*2)
+
+        anims = self.draw([self.edges[3], self.edges[5]], play=False)
+        anims += [Transform(subgraph_words, subdivision_words)]
+        self.play(*anims)
+
         self.wait()
 
-        self.draw(self.edges)
+        new_points = [
+            random.uniform(0.15,0.85)*(planar.points[i]-planar.points[j]) + planar.points[j]
+            for i, j in planar.edge_vertices
+        ]
+        new_verts = [Dot(p, color=RED) for p in new_points]
+        
+        self.draw(new_verts)
+        self.wait()
+        self.erase(new_verts)
+        self.wait()
+
+        self.play(*(self.erase(self.vertices, play=False) + self.erase(self.edges, play=False)))
+
+        return
+
+        nonplanar = OurGraphTheory(CompleteGraph(5))
+        nonplanar.construct()
+
+        anims = self.draw(nonplanar.edges, play=False)
+        anims += self.draw(nonplanar.vertices, play=False)
+
+        np_subdivision_words = TextMobject("Subdivisions of a \\textbf{non}planar graph are \\textbf{not} planar.")
+        np_subdivision_words.next_to(nonplanar.vertices[1], UP*2)
+        self.play(*(anims + [Transform(subdivision_words, np_subdivision_words)]))
+
+        self.wait()
+
+        new_points = [
+            random.uniform(0.15,0.85)*(nonplanar.points[i]-nonplanar.points[j]) + nonplanar.points[j]
+            for i, j in nonplanar.edge_vertices
+        ]
+        new_verts = [Dot(p, color=RED) for p in new_points]
+        
+        self.draw(new_verts)
+        self.wait()
+        self.erase(new_verts)
+        self.wait()
+
+
 
 
 
