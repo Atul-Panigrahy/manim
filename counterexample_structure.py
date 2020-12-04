@@ -29,6 +29,11 @@ class Counter2ConnectedScene(OurGraphTheory):
         self.graph = CounterExample2CGraph()
         super().construct()
 
+        f1 = TextMobject("Fact 1: $G$ is $2$-connected.")
+        f1.shift(UP*3)
+        f1.scale(1)
+        self.play(Write(f1))
+
         self.shift_graph(2*LEFT)
 
         self.draw(self.vertices)
@@ -195,8 +200,13 @@ class NoDegree2Scene(OurGraphTheory):
         super().construct()
         self.shift_graph(2*LEFT)
 
+        f1 = TextMobject("Fact 2: $\\deg{v} > 2$ for $v \\in G$.")
+        f1.shift(UP*3)
+        f1.scale(1)
+        self.play(Write(f1))
+
         c1 = TextMobject("Case 1: $u,w$ are adjacent")
-        c1.shift(UP*3)
+        c1.shift(DOWN*3)
         c1.scale(0.8)
         self.play(Write(c1))
 
@@ -240,7 +250,7 @@ class NoDegree2Scene(OurGraphTheory):
         self.shift_graph(2*LEFT)
 
         c2 = TextMobject("Case 2: $u,w$ are not adjacent")
-        c2.shift(UP*3)
+        c2.shift(DOWN*3)
         c2.scale(0.8)
         self.play(Transform(c1, c2))
 
@@ -275,17 +285,34 @@ class RemovableEdgeGraph(Graph):
     def construct(self):
         self.vertices = [
             (0, 1, 0),
-            (1, .5, 0),
-            (1, -.5, 0),
+            (1, 0, 0),
             (0, -1, 0),
-            (-1, -0.5, 0),
-            (-1, 0.5, 0),
-            (-2, 0.5, 0),
-            (-2, -0.5, 0)
+            (-1, 0, 0),
+            (1, 2, 0),
+            (2, 1, 0),
         ]
 
-        self.edges = [(i, i+1) for i in range(len(self.vertices) - 1)]
-        self.edges += [(5,0), (1,4), (2,5), (0,3)]
+        self.edges = [
+            (0,1),
+            (1,2),
+            (2,3),
+            (3,0),
+            (3,4),
+            (0,4),
+            (5,4),
+            (0,5),
+            (1,5),
+            (0,2),
+            (2,5),
+            (1,3)
+        ]
+
+        curve_out = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/6)
+        curve_out_big = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/3)
+        curve_in = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/6)
+        curve_in_big = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/3)
+
+        self.eclasses = [curve_out]*4 + [curve_out_big] + [curve_out]*3 + [curve_in] + [Line] + [curve_in_big] + [lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/1.5)]
 
 class RemovableEdgeScene(OurGraphTheory):
     def construct(self):
@@ -295,7 +322,32 @@ class RemovableEdgeScene(OurGraphTheory):
         self.graph = RemovableEdgeGraph()
         super().construct()
 
-        self.shift_graph(2*LEFT)
+        f1 = TextMobject("Fact 3: for some $uv \\in G$, $G - uv$ is 2-connected.")
+        f1.shift(UP*3)
+        f1.scale(1)
+        self.play(Write(f1))
+
+        self.shift_graph(2*LEFT + DOWN)
+
+        instr = TextMobject("Draw \\\\ $G$ as a cycle \\\\ with `ears'.", alignment="\\justify")
+        instr.scale(0.75)
+        instr.shift(RIGHT*4)
+        self.play(Write(instr, run_time=0.75))
 
         self.draw(self.vertices)
         self.draw(self.edges)
+
+        self.wait()
+
+        instr2 = TextMobject("Can erase \\\\ edges on \\\\ outer paths.", alignment="\\justify")
+        instr2.scale(0.75)
+        instr2.shift(RIGHT*4)
+        self.play(Transform(instr, instr2))
+
+        self.erase_copy(self.edges[5])
+        self.wait(0.5)
+        self.draw(self.edges[5])
+
+        self.erase_copy(self.edges[6])
+        self.wait(0.5)
+        self.draw(self.edges[6])
