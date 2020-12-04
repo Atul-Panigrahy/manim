@@ -312,7 +312,7 @@ class RemovableEdgeGraph(Graph):
         curve_in = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/6)
         curve_in_big = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/3)
 
-        self.eclasses = [curve_out]*4 + [curve_out_big] + [curve_out]*3 + [curve_in] + [Line] + [curve_in_big] + [lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/1.5)]
+        self.eclasses = [curve_out]*4 + [curve_out_big] + [curve_out] + [curve_in] + [curve_out] + [curve_in] + [Line] + [curve_in_big] + [lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/1.5)]
 
 class RemovableEdgeScene(OurGraphTheory):
     def construct(self):
