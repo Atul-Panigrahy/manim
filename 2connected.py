@@ -86,10 +86,11 @@ class TwoConnectedLemma(OurGraphTheory):
         thm = TextMobject("Theorem:\\\\ in a $2$-connected graph, \\\\ any pair of vertices \\\\ is contained in a cycle.", alignment="\\justify")
         thm.scale(0.75)
         thm.shift(RIGHT*4)
-        self.play(Write(thm, run_time=0.5))
+        self.play(Write(thm, run_time=0.75))
 
         base_case = TextMobject("Base Case: $u,v$ are adjacent")
         base_case.shift(UP*3)
+        base_case.scale(0.8)
         self.play(Write(base_case))
 
         #Draw then erase edge from u to v
@@ -123,6 +124,7 @@ class TwoConnectedLemma(OurGraphTheory):
 
         inductive_case = TextMobject("Inductive Step: $u,v$ have distance $d+1$")
         inductive_case.shift(UP*3)
+        inductive_case.scale(0.8)
 
         # Transition to new graph
         new_u, new_v = self.vertices[0], self.vertices[5]
