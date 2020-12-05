@@ -24,9 +24,9 @@ class OurGraphTheory(Scene):
                 a = b
 
         def find_edge_index(a,b):
-            return self.graph.edges.index((a,b)) 
+            return (self.graph.edges.index((a,b)) 
                 if (a,b) in self.graph.edges 
-                else self.graph.edges.index((b,a))
+                else self.graph.edges.index((b,a)))
         
         eclasses = []
         for (a,b) in pairwise(vertices):
@@ -248,5 +248,10 @@ class K5(OurGraphTheory):
         
 CURVE_OUT = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/6)
 CURVE_OUT_BIG = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/3)
+CURVE_OUT_BBIG = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/2.15)
+CURVE_OUT_HUGE = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/1.5)
+CURVE_OUT_HUGE_RED = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/1.5, color=RED)
 CURVE_IN = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/6)
 CURVE_IN_BIG = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/3)
+CURVE_IN_BBIG = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/2.15)
+CURVE_IN_HUGE = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/1.5)
