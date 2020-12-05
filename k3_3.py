@@ -16,7 +16,7 @@ class K33(Graph):
     1 4
     0 3  
     """
-
+    
     def construct(self):
         self.vertices = [
             (x, y, 0)
