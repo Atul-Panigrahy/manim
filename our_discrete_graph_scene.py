@@ -125,7 +125,7 @@ class OurGraphTheory(Scene):
         self.play(*[Uncreate(v, **kwargs)
                     for v in verts])
 
-    def accent_vertices(self, verts = None, color="lightgreen", **kwargs):
+    def accent_vertices(self, verts = None, color="lightgreen", colors=None, **kwargs):
         if not verts:
             verts = self.vertices
         
@@ -133,10 +133,16 @@ class OurGraphTheory(Scene):
         
         self.remove(*verts)
         start = verts
-        end = [Dot(point, radius=3 * DEFAULT_DOT_RADIUS,
-                   color = color)
-            for point in points
-        ]
+        if colors:
+            end = [Dot(point, radius=3 * DEFAULT_DOT_RADIUS,
+                    color = colors[idx])
+                for idx, point in enumerate(points)
+            ]
+        else:
+            end = [Dot(point, radius=3 * DEFAULT_DOT_RADIUS,
+                    color = color)
+                for point in points
+            ]
         self.play(*[Transform(
             s, e, rate_func=there_and_back,
             **kwargs

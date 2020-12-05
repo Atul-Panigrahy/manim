@@ -192,8 +192,8 @@ class MainProofScene(OurGraphTheory):
         self.draw(self.edges[27])
         red_verts = [13,3,8]
         green_verts = [0,7,15]
-        self.accent_vertices([self.vertices[i] for i in red_verts], color=RED)
-        self.accent_vertices([self.vertices[i] for i in green_verts], color=GREEN)
+        colors = [RED]*3 + [GREEN]*3
+        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=2)
 
         # fadeout obs1 vertices and edges
         anims = self.erase_copy([self.edges[i] for i in obstruction_edges], play=False)
@@ -217,8 +217,7 @@ class MainProofScene(OurGraphTheory):
         self.draw(self.edges[27])
         red_verts = [12,8,3]
         green_verts = [0,14,15]
-        self.accent_vertices([self.vertices[i] for i in red_verts], color=RED)
-        self.accent_vertices([self.vertices[i] for i in green_verts], color=GREEN)
+        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=2)
 
         # fadeout obs2 vertices and edges
         anims = self.erase_copy([self.edges[i] for i in obstruction_edges], play=False)
@@ -242,8 +241,7 @@ class MainProofScene(OurGraphTheory):
         self.draw(self.edges[27])
         red_verts = [0,11,8]
         green_verts = [10,7,3]
-        self.accent_vertices([self.vertices[i] for i in red_verts], color=RED)
-        self.accent_vertices([self.vertices[i] for i in green_verts], color=GREEN)
+        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=2)
 
         # fadeout obs3 vertices and edges
         anims = self.erase_copy([self.edges[i] for i in obstruction_edges], play=False)

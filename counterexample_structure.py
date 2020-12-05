@@ -240,15 +240,10 @@ class RemovableEdgeGraph(Graph):
             (1,5),
             (0,2),
             (2,5),
-            (1,3)
+            (1,3),
         ]
 
-        curve_out = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/6)
-        curve_out_big = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/3)
-        curve_in = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/6)
-        curve_in_big = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/3)
-
-        self.eclasses = [curve_out]*4 + [curve_out_big] + [curve_out] + [curve_in] + [curve_out] + [curve_in] + [Line] + [curve_in_big] + [lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/1.5)]
+        self.eclasses = [CURVE_OUT]*4 + [CURVE_OUT_BIG] + [CURVE_OUT] + [CURVE_IN] + [CURVE_OUT] + [CURVE_IN] + [Line] + [CURVE_IN_BIG] + [lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/1.5)]
 
 class RemovableEdgeScene(OurGraphTheory):
     def construct(self):
