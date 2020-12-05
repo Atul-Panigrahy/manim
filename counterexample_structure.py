@@ -39,7 +39,7 @@ class Counter2ConnectedScene(OurGraphTheory):
         self.draw(self.vertices)
         self.draw(self.edges)
 
-        desc1 = TextMobject("Counterexample \\\\ is not \\\\ $2$-connected.", alignment="\\justify")
+        desc1 = TextMobject("Suppose \\\\ counterexample is \\\\ not $2$-connected.", alignment="\\justify")
         desc1.scale(0.75)
         desc1.shift(RIGHT*3)
         self.play(Write(desc1, run_time=0.75))
@@ -52,7 +52,7 @@ class Counter2ConnectedScene(OurGraphTheory):
 
         self.erase([self.vertices[6]] + self.edges[5:7])
 
-        desc2 = TextMobject("Smaller \\\\ counterexample.", alignment="\\justify")
+        desc2 = TextMobject("Smaller \\\\ counterexample.", color=RED, alignment="\\justify")
         desc2.scale(0.75)
         desc2.shift(RIGHT*3)
         self.play(Transform(desc1, desc2))
@@ -88,43 +88,6 @@ class NoDegree2GraphCase1(Graph):
             (2,6)
         ]
 
-class NoDegree2Case1Scene(OurGraphTheory):
-    def construct(self):
-        self.graph = NoDegree2GraphCase1()
-        super().construct()
-
-        base_case = TextMobject("Case 1: $u,w$ are adjacent")
-        base_case.shift(UP*3)
-        base_case.scale(0.8)
-        self.play(Write(base_case))
-
-        self.shift_graph(2*LEFT)
-
-        self.draw(self.vertices[1:])
-        self.draw(self.edges[:-2])
-        v, u, w = self.vertices[0], self.vertices[1], self.vertices[2]
-        v_label, u_label, w_label = (TextMobject("$v$").scale(0.5).next_to(v, DR*0.5),
-                            TextMobject("$u$").scale(0.5).next_to(u, DL*0.5),
-                            TextMobject("$w$").scale(0.5).next_to(w, UP*0.5))
-        self.play(Write(u_label), Write(w_label))
-
-        instr = TextMobject("Embed \\\\ $H = G - v$.", alignment="\\justify")
-        instr.scale(0.75)
-        instr.shift(RIGHT*4)
-        self.play(Write(instr, run_time=0.75))
-
-        self.wait(2)
-
-        self.play(*(self.draw(self.vertices[0], play=False) + [Write(v_label)]))
-        self.draw(self.edges[-2:])
-
-        instr2 = TextMobject("Result: \\\\ an embedding \\\\ for $G$", alignment="\\justify", color=RED)
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
-        self.play(Transform(instr, instr2))
-
-        self.wait(2)
-
 class NoDegree2GraphCase2(Graph):
     def construct(self):
         self.vertices = [
@@ -154,56 +117,21 @@ class NoDegree2GraphCase2(Graph):
             (2,6)
         ]
 
-class NoDegree2Case2Scene(OurGraphTheory):
-    def construct(self):
-        self.graph = NoDegree2GraphCase2()
-        super().construct()
-
-        base_case = TextMobject("Case 2: $u,w$ are not adjacent")
-        base_case.shift(UP*3)
-        base_case.scale(0.8)
-        self.play(Write(base_case))
-
-        self.shift_graph(2*LEFT)
-
-        self.draw(self.vertices[1:])
-        self.draw(self.edges[:-2])
-        v, u, w = self.vertices[0], self.vertices[1], self.vertices[2]
-        v_label, u_label, w_label = (TextMobject("$v$").scale(0.5).next_to(v, DR*0.5),
-                            TextMobject("$u$").scale(0.5).next_to(u, DL*0.5),
-                            TextMobject("$w$").scale(0.5).next_to(w, UP*0.5))
-        self.play(Write(u_label), Write(w_label))
-
-        instr = TextMobject("Embed \\\\ $H = G - v + uw$.", alignment="\\justify")
-        instr.scale(0.75)
-        instr.shift(RIGHT*4)
-        self.play(Write(instr, run_time=0.75))
-
-        self.wait(2)
-
-        self.erase(self.edges[0])
-
-        self.play(*(self.draw(self.vertices[0], play=False) + [Write(v_label)]))
-        self.draw(self.edges[-2:])
-
-        instr2 = TextMobject("Result: \\\\ an embedding \\\\ for $G$", alignment="\\justify", color=RED)
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
-        self.play(Transform(instr, instr2))
-
-        self.wait(2)
-
-
 class NoDegree2Scene(OurGraphTheory):
     def construct(self):
         self.graph = NoDegree2GraphCase1()
         super().construct()
         self.shift_graph(2*LEFT)
 
-        f1 = TextMobject("Fact 2: $\\deg{v} > 2$ for $v \\in G$.")
+        f1 = TextMobject("Fact 2: $\\deg{v} > 2$ for all $v \\in G$.")
         f1.shift(UP*3)
         f1.scale(1)
         self.play(Write(f1))
+
+        f2 = TextMobject("Proof by contradiction: \\\\ assume some degree $v \\in G$ \\\\ has $\\deg{v} = 2$.")
+        self.play(Write(f2))
+        self.wait()
+        self.play(FadeOut(f2))
 
         c1 = TextMobject("Case 1: $u,w$ are adjacent")
         c1.shift(DOWN*3)
@@ -223,9 +151,12 @@ class NoDegree2Scene(OurGraphTheory):
                             TextMobject("$w$").scale(0.5).next_to(w, UP*0.5))
         self.play(Write(u_label), Write(w_label))
 
-        
-
         self.wait()
+
+        instr2 = TextMobject("Draw $uv$, $vw$ \\\\ along $uw$", alignment="\\justify")
+        instr2.scale(0.75)
+        instr2.shift(RIGHT*4)
+        self.play(Transform(instr, instr2))
 
         self.play(*(self.draw(self.vertices[0], play=False) + [Write(v_label)]))
         self.draw(self.edges[-2:])
@@ -268,6 +199,11 @@ class NoDegree2Scene(OurGraphTheory):
         self.play(Write(u_label), Write(w_label))
 
         self.wait()
+
+        instr2 = TextMobject("Remove $uw$ and \\\\ replace with $uv$, $vw$", alignment="\\justify")
+        instr2.scale(0.75)
+        instr2.shift(RIGHT*4)
+        self.play(Transform(instr, instr2))
 
         self.erase(self.edges[0])
 
@@ -335,9 +271,11 @@ class RemovableEdgeScene(OurGraphTheory):
         self.play(Write(instr, run_time=0.75))
 
         self.draw(self.vertices)
-        self.draw(self.edges)
+        self.draw(self.edges[:4])
 
         self.wait()
+
+        self.draw(self.edges[4:])
 
         instr2 = TextMobject("Can erase \\\\ edges on \\\\ outer paths.", alignment="\\justify")
         instr2.scale(0.75)

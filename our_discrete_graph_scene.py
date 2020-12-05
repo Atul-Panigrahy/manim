@@ -10,6 +10,30 @@ class OurGraphTheory(Scene):
     def __init__(self, graph=None, *args, **kwargs):
         self.graph = graph
         Scene.__init__(self, *args, **kwargs)
+
+    def get_classes_from_vertices(self, vertices):
+        if not hasattr(self.graph, 'eclasses'):
+            return [Line]*len(vertices)
+
+        def pairwise(iterable):
+            i = iter(iterable)
+            a = next(i, None)
+
+            for b in i:
+                yield (a, b)
+                a = b
+
+        def find_edge_index(a,b):
+            return self.graph.edges.index((a,b)) if (a,b) in self.graph.edges else self.graph.edges.index((b,a))
+        
+        eclasses = []
+        for (a,b) in pairwise(vertices):
+            eclasses.append(self.graph.eclasses[find_edge_index(a,b)])
+
+        eclasses.append(self.graph.eclasses[find_edge_index(vertices[-1], vertices[0])])
+
+        return eclasses
+        
         
     def construct(self):
         self.points = list(map(np.array, self.graph.vertices))
@@ -145,12 +169,13 @@ class OurGraphTheory(Scene):
                    color=RED, run_time=2.0):
         if path is None:
             path = self.graph.region_paths[0]
+        eclasses = self.get_classes_from_vertices(path)
         time_per_edge = run_time / len(path)
         next_in_path = it.cycle(path)
         next(next_in_path)  # jump one ahead
         traced_path = [
-            Line(self.points[i], self.points[j]).set_color(color)
-            for i, j in zip(path, next_in_path)
+            eclasses[idx](self.points[i], self.points[j]).set_color(color)
+            for (idx, (i, j)) in enumerate(zip(path, next_in_path))
         ][:-1]
         if play:
             for c in traced_path:
@@ -163,12 +188,13 @@ class OurGraphTheory(Scene):
                     color=RED, run_time=2.0):
         if cycle is None:
             cycle = self.graph.region_cycles[0]
+        eclasses = self.get_classes_from_vertices(cycle)
         time_per_edge = run_time / len(cycle)
         next_in_cycle = it.cycle(cycle)
         next(next_in_cycle)  # jump one ahead
         self.traced_cycle = [
-            Line(self.vertices[i].get_center(), self.vertices[j].get_center()).set_color(color)
-            for i, j in zip(cycle, next_in_cycle)
+            eclasses[idx](self.vertices[i].get_center(), self.vertices[j].get_center()).set_color(color)
+            for (idx, (i, j)) in enumerate(zip(cycle, next_in_cycle))
         ]
         if play:
             for c in self.traced_cycle:
@@ -218,4 +244,7 @@ class K5(OurGraphTheory):
         self.remove_vertices(new_verts)
         self.wait()
         
-        
+CURVE_OUT = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/6)
+CURVE_OUT_BIG = lambda x,y: ArcBetweenPoints(x,y,angle=-TAU/3)
+CURVE_IN = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/6)
+CURVE_IN_BIG = lambda x,y: ArcBetweenPoints(x,y,angle=TAU/3)

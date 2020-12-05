@@ -50,3 +50,6 @@ class CutVertexScene(OurGraphTheory):
         self.erase([self.vertices[2], self.edges[1], self.edges[2], self.edges[3], self.edges[5]])
 
         self.wait()
+
+        self.erase(self.vertices+self.edges+[connected])
+        self.wait()
