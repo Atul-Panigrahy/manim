@@ -20,10 +20,10 @@ def edge_to_two_edges(edge):
 
 INSTANT = 0.000001
 
-c1 = 1.5*np.cos(2*PI / 5)
-c2 = 1.5*np.cos(PI / 5)
-s1 = 1.5*np.sin(2*PI / 5)
-s2 = 1.5*np.sin(4*PI / 5)
+c1 = 2*np.cos(2*PI / 5)
+c2 = 2*np.cos(PI / 5)
+s1 = 2*np.sin(2*PI / 5)
+s2 = 2*np.sin(4*PI / 5)
 
 class K5ForTorus(Graph):
     """
@@ -34,7 +34,7 @@ class K5ForTorus(Graph):
 
     def construct(self):
         self.vertices = [
-            (0,np.sqrt(2),0),
+            (0,2,0),
             (s1,c1,0),
             (s2,-1*c2,0),
             (-1*s2,-1*c2,0),
@@ -102,14 +102,14 @@ class K5OnTorus(OurGraphTheory):
         ]
         """
 
-        def horizontal_new_line(line):
+        def horizontal_new_line(line, color=WHITE):
             start = line.start.copy()
             end = line.end.copy()
             if start[0] < 0:
                 end[0] = -3
             else:
                 end[0] = 3
-            return Line(start, end)
+            return Line(start, end, color=color)
 
         """
         self.play(*[
@@ -121,30 +121,30 @@ class K5OnTorus(OurGraphTheory):
         replacements = [replace_edge_with_two(6)]
 
         self.play(*[
-            Transform(edge, horizontal_new_line(edge))
+            Transform(edge, horizontal_new_line(edge, RED))
             for edge in sum(replacements, [])
         ], run_time = 1.3)
 
         replacements = [replace_edge_with_two(8)]
 
         self.play(*[
-            Transform(edge, horizontal_new_line(edge))
+            Transform(edge, horizontal_new_line(edge, BLUE))
             for edge in sum(replacements, [])
         ], run_time = 1.3)
 
-        def vertical_new_line(line):
+        def vertical_new_line(line, color=WHITE):
             start = line.start.copy()
             end = line.end.copy()
             if start[1] < 0:
                 end[1] = -3
             else:
                 end[1] = 3
-            return Line(start, end)
+            return Line(start, end, color=color)
 
         replacements = [replace_edge_with_two(5)]
 
         self.play(*[
-            Transform(edge, vertical_new_line(edge))
+            Transform(edge, vertical_new_line(edge, GREEN))
             for edge in sum(replacements, [])
         ], run_time = 1.3)        
                 
