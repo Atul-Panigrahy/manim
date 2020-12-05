@@ -44,22 +44,46 @@ class K33_Nonplanar(OurGraphTheory):
         # 2 5
         # 1 4
         # 0 3
+
+        lemma = TextMobject("Lemma: $K_{3, 3}$ is Nonplanar")
+        lemma.shift(UP * 3.5)
+        self.play(Write(lemma))
+        
         self.draw(self.vertices)
         self.draw(self.edges)
         self.wait()
-        a = TextMobject("a")
         # V - E + F = 2
+
+        eulers_form = TextMobject("$V - E + F = 2$")
+        eulers_form.shift(LEFT * 4.5 + UP * 2.5)
+        self.play(Write(eulers_form))
+        self.wait(2.5)
         
         # V = 6
         self.accent_vertices()
-        self.wait(1.5)
+        eulers_form = TextMobject("$6 - E + F = 2$")
+        eulers_form.shift(LEFT * 4.5 + UP * 1.5)
+        self.play(Write(eulers_form))
+        self.wait(2.5)
 
         # E = 9
         self.accent_edges()
-        self.wait(1.5)
-
-        # now we have 6 - 9 + f = 2 gives f = 5
-
+        eulers_form = TextMobject("$6 - 9 + F = 2$")
+        eulers_form.shift(LEFT * 4.5 + UP * 0.5)
+        self.play(Write(eulers_form))
+        self.wait(2.5)
+        
+        # F = 5
+        eulers_form = TextMobject("$F = 5$")
+        eulers_form.shift(LEFT * 4.5 + DOWN * 0.5)
+        self.play(Write(eulers_form))
+        self.wait(2.5)
+        
+        
+        eulers_form = TextMobject("No 3 Edge Faces")
+        eulers_form.shift(RIGHT * 4.5 + UP * 2.5)
+        self.play(Write(eulers_form))    
+        
         # no 3 edge cycles
         three_cycles = [
             [4, 1, 5, 2],
@@ -74,8 +98,39 @@ class K33_Nonplanar(OurGraphTheory):
             path = self.trace_path(path, run_time = 1.3)
             self.remove(*path)
             self.wait(0.5)
-        self.wait()
+
+        edges_faces = TextMobject("No 3 Edge Faces")
+        edges_faces.shift(RIGHT * 4.5 + UP * 2.5)
+        self.play(Write(edges_faces))    
+        self.wait(2.5)
+
+        edges_faces = TextMobject("$4F \leq 2E$")
+        edges_faces.shift(RIGHT * 4.5 + UP * 1.5)
+        self.play(Write(edges_faces))    
+        self.wait(1.5)
+        
+        # E = 9
+        self.accent_edges()
+        edges_faces = TextMobject("$4F \leq 2*9$")
+        edges_faces.shift(RIGHT * 4.5 + UP * 0.5)
+        self.play(Write(edges_faces))
+        self.wait(1.5)
+
+        edges_faces = TextMobject("$F \leq 4.5$")
+        edges_faces.shift(RIGHT * 4.5 + DOWN * 0.5)
+        self.play(Write(edges_faces))
+        self.wait(2.5)
 
         #thus 4f <= 2e gives f <= 3
         #gives 5 <= 3 contradiction
+
+        contradiction = TextMobject("$5 = F \leq 4.5$")
+        contradiction.shift(DOWN * 2.5)
+        self.play(Write(contradiction))
+        self.wait(1.5)
+
+        contradiction2 = TextMobject("$5 \leq 4.5$")
+        contradiction2.shift(DOWN * 2.5)
+        self.play(Transform(contradiction, contradiction2))
+        self.wait(2.5)
         
