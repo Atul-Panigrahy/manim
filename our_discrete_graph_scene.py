@@ -24,7 +24,9 @@ class OurGraphTheory(Scene):
                 a = b
 
         def find_edge_index(a,b):
-            return self.graph.edges.index((a,b)) if (a,b) in self.graph.edges else self.graph.edges.index((b,a))
+            return self.graph.edges.index((a,b)) 
+                if (a,b) in self.graph.edges 
+                else self.graph.edges.index((b,a))
         
         eclasses = []
         for (a,b) in pairwise(vertices):
