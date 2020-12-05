@@ -102,6 +102,7 @@ class PlanarSubgraphScene(OurGraphTheory):
 
         return
 
+        """
         nonplanar = OurGraphTheory(CompleteGraph(5))
         nonplanar.construct()
 
@@ -124,6 +125,7 @@ class PlanarSubgraphScene(OurGraphTheory):
         self.wait()
         self.erase(new_verts)
         self.wait()
+        """
 
 
 

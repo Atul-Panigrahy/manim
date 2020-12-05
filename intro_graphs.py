@@ -21,7 +21,7 @@ class K33(Graph):
 
         self.edges = [(0,1), (1,2), (2,3), (3,4), (4,5), (5,0), (0,3), (1,4), (2,5)]
         self.eclasses = [Line]*7 + [lambda x,y: ArcBetweenPoints(x,y,angle=TAU/1.75)] + [DashedLine]
-        self.vcolors = [WHITE, RED]*3
+        self.vcolors = [RED, BLUE]*3
 
         
 class IntroGraphScene(OurGraphTheory):
