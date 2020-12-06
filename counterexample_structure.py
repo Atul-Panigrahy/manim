@@ -8,6 +8,34 @@ import random
 from manimlib.imports import *
 from our_discrete_graph_scene import *      
 
+class CounterexampleIntroScene(Scene):
+    def construct(self):
+        super().construct()
+
+        self.wait()
+
+        f1 = TextMobject("Assume there exist nonplanar graphs \\\\ which have no subdivisions of $K_5$ or $K_{3,3}$ \\\\ as subgraphs.")
+        f1.scale(1).shift(UP*2)
+        self.play(Write(f1))
+
+        self.wait(5)
+
+        f2 = TextMobject("Let $G$ be the graph of this kind \\\\ with the \\emph{fewest} edges.")
+        f2.scale(1).next_to(f1, DOWN*3)
+        self.play(Write(f2))
+
+        self.wait(4)
+
+        f3 = TextMobject("Then removing any edge from $G$ \\\\ gives a \\emph{planar} graph.")
+        f3.scale(1).next_to(f2, DOWN*3)
+        self.play(Write(f3))
+
+        self.wait(5)
+
+        self.play(*[FadeOut(e) for e in [f1,f2,f3]])
+
+        self.wait()
+
 class CounterExample2CGraph(Graph):
     def construct(self):
         self.vertices = [
@@ -34,15 +62,20 @@ class Counter2ConnectedScene(OurGraphTheory):
         f1.scale(1)
         self.play(Write(f1))
 
+        self.wait(2)
+
         self.shift_graph(2*LEFT)
+
+        desc1 = TextMobject("Suppose \\\\ $G$ is not \\\\ $2$-connected.", alignment="\\justify")
+        desc1.scale(0.75)
+        desc1.shift(RIGHT*3)
+        self.play(Write(desc1, run_time=0.75))
+        self.wait(2)
 
         self.draw(self.vertices)
         self.draw(self.edges)
 
-        desc1 = TextMobject("Suppose \\\\ counterexample is \\\\ not $2$-connected.", alignment="\\justify")
-        desc1.scale(0.75)
-        desc1.shift(RIGHT*3)
-        self.play(Write(desc1, run_time=0.75))
+        self.wait(2)
 
         circle = Circle(radius=0.5, color=RED)
         circle.next_to(self.vertices[6], ORIGIN) 
@@ -58,6 +91,13 @@ class Counter2ConnectedScene(OurGraphTheory):
         self.play(Transform(desc1, desc2))
 
         self.wait(2)
+
+        erase_anims = self.erase(self.vertices[:6] + self.vertices[7:], play=False)
+        erase_anims += self.erase(self.edges[:5] + self.edges[7:], play=False)
+        erase_anims += [FadeOut(desc1), FadeOut(f1)]
+
+        self.play(*erase_anims)
+        self.wait()
 
 class NoDegree2GraphCase1(Graph):
     def construct(self):
@@ -128,20 +168,25 @@ class NoDegree2Scene(OurGraphTheory):
         f1.scale(1)
         self.play(Write(f1))
 
+        self.wait(3)
+
         f2 = TextMobject("Proof by contradiction: \\\\ assume some degree $v \\in G$ \\\\ has $\\deg{v} = 2$.")
         self.play(Write(f2))
-        self.wait()
+        self.wait(2)
         self.play(FadeOut(f2))
 
         c1 = TextMobject("Case 1: $u,w$ are adjacent")
         c1.shift(DOWN*3)
         c1.scale(0.8)
         self.play(Write(c1))
+        self.wait(2)
 
         instr = TextMobject("Embed \\\\ $H = G - v$.", alignment="\\justify")
         instr.scale(0.75)
         instr.shift(RIGHT*4)
         self.play(Write(instr, run_time=0.75))
+
+        self.wait(2)
 
         self.draw(self.vertices[1:])
         self.draw(self.edges[:-2])
@@ -151,7 +196,7 @@ class NoDegree2Scene(OurGraphTheory):
                             TextMobject("$w$").scale(0.5).next_to(w, UP*0.5))
         self.play(Write(u_label), Write(w_label))
 
-        self.wait()
+        self.wait(2)
 
         instr2 = TextMobject("Draw $uv$, $vw$ \\\\ along $uw$", alignment="\\justify")
         instr2.scale(0.75)
@@ -166,7 +211,7 @@ class NoDegree2Scene(OurGraphTheory):
         instr2.shift(RIGHT*4)
         self.play(Transform(instr, instr2))
 
-        self.wait()
+        self.wait(2)
 
         erase_anims = [FadeOut(t) for t in (instr, v_label, u_label, w_label)]
         erase_anims += self.erase(self.vertices, play=False)
@@ -185,10 +230,14 @@ class NoDegree2Scene(OurGraphTheory):
         c2.scale(0.8)
         self.play(Transform(c1, c2))
 
+        self.wait(3)
+
         instr = TextMobject("Embed \\\\ $H = G - v + uw$.", alignment="\\justify")
         instr.scale(0.75)
         instr.shift(RIGHT*4)
         self.play(Write(instr, run_time=0.75))
+
+        self.wait(3)
 
         self.draw(self.vertices[1:])
         self.draw(self.edges[:-2])
@@ -205,6 +254,8 @@ class NoDegree2Scene(OurGraphTheory):
         instr2.shift(RIGHT*4)
         self.play(Transform(instr, instr2))
 
+        self.wait(1)
+
         self.erase(self.edges[0])
 
         self.play(*(self.draw(self.vertices[0], play=False) + [Write(v_label)]))
@@ -216,6 +267,13 @@ class NoDegree2Scene(OurGraphTheory):
         self.play(Transform(instr, instr2))
 
         self.wait(2)
+
+        erase_anims = self.erase(self.vertices, play=False)
+        erase_anims += self.erase(self.edges, play=False)
+        erase_anims += [FadeOut(e) for e in [instr, c1, v_label, u_label, w_label, f1]]
+
+        self.play(*erase_anims)
+        self.wait()
 
 class RemovableEdgeGraph(Graph):
     def construct(self):
@@ -258,6 +316,8 @@ class RemovableEdgeScene(OurGraphTheory):
         f1.scale(1)
         self.play(Write(f1))
 
+        self.wait(4)
+
         self.shift_graph(2*LEFT + DOWN)
 
         instr = TextMobject("Draw \\\\ $G$ as a cycle \\\\ with `ears'.", alignment="\\justify")
@@ -265,17 +325,17 @@ class RemovableEdgeScene(OurGraphTheory):
         instr.shift(RIGHT*4)
         self.play(Write(instr, run_time=0.75))
 
-        self.draw(self.vertices)
+        self.draw(self.vertices[:4])
         self.draw(self.edges[:4])
-
-        self.wait()
-
+        self.draw(self.vertices[4:])
         self.draw(self.edges[4:])
 
         instr2 = TextMobject("Can erase \\\\ edges on \\\\ outer paths.", alignment="\\justify")
         instr2.scale(0.75)
         instr2.shift(RIGHT*4)
         self.play(Transform(instr, instr2))
+
+        self.wait(3)
 
         self.erase_copy(self.edges[5])
         self.wait(0.5)
@@ -284,3 +344,12 @@ class RemovableEdgeScene(OurGraphTheory):
         self.erase_copy(self.edges[6])
         self.wait(0.5)
         self.draw(self.edges[6])
+
+        self.wait(2)
+
+        erase_anims = self.erase(self.vertices, play=False)
+        erase_anims += self.erase(self.edges, play=False)
+        erase_anims += [FadeOut(e) for e in [instr, f1]]
+
+        self.play(*erase_anims)
+        self.wait()
