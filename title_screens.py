@@ -17,4 +17,12 @@ class IntroSlide(Scene):
 
 class OutroSlide(Scene):
     def construct(self):
-        "here"
+        credit = TextMobject("Credits").scale(1.5).to_edge(UP)
+        credit_list = BulletedList(
+            "3b1b/manim: https://github.com/3b1b/manim",
+            "Mary Radcliffe: http://www.math.cmu.edu/~mradclif/teaching/228F16/Kuratowski.pdf",
+            "Artist: Music",
+            alignment="\\justify"
+        )
+        self.play(Write(credit), Write(credit_list))
+        self.wait()
