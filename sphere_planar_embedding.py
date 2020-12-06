@@ -56,7 +56,7 @@ class CubeGraphOnSphere(CubeGraph):
              v[2] * SCALE_FACTOR)
             for v in self.vertices
         ]
-
+"""
 class SphereToPlaneScene(OurGraphTheory):
     def construct(self):
         self.graph = CubeGraphOnSphere()
@@ -88,7 +88,7 @@ class SphereToPlaneScene(OurGraphTheory):
             for mobj1,mobj2 in graph_trans
         ])
         self.wait()
-
+"""
 
 
 class ThreeDSurfaceGraphScene(ThreeDScene):
@@ -214,7 +214,7 @@ class ThreeDSurfaceGraphScene(ThreeDScene):
 
 
 
-class SpherePlaneThing(ThreeDSurfaceGraphScene):
+class SphereToPlaneScene(ThreeDSurfaceGraphScene):
     def construct(self):
         axes = ThreeDAxes()
         a=1.5
@@ -224,7 +224,7 @@ class SpherePlaneThing(ThreeDSurfaceGraphScene):
                  a * np.sin(TAU * u) * np.sin(TAU * v),
                  a * np.cos(TAU * v)
              ]),
-            resolution=(60, 64)).fade(0.7) #Resolution of the surfaces
+            resolution=(6, 6)).fade(0.7) #Resolution of the surfaces
         def project_onto_unit_cube(x, y, z):
             return np.array([x, y, z]) / max(abs(x),
                                              abs(y),
@@ -236,7 +236,7 @@ class SpherePlaneThing(ThreeDSurfaceGraphScene):
                  np.sin(TAU * u) * np.sin(TAU * v),
                  np.cos(TAU * v)
              ),
-            resolution=(60, 64)).fade(0.7) #Resolution of the surfaces
+            resolution=(6, 6)).fade(0.7) #Resolution of the surfaces
 
         self.set_camera_orientation(phi=60 * DEGREES,theta=-60*DEGREES)
 
@@ -280,4 +280,99 @@ class SpherePlaneThing(ThreeDSurfaceGraphScene):
         ])
         self.wait()
 
+def stereographic_projection(X, Y, scale):
+    X /= scale
+    Y /= scale
+    denom = 1 + X * X + Y * Y
+    x = 2 * X / denom * scale
+    y = 2 * Y / denom * scale
+    z = (-1 + X * X + Y * Y) / denom * scale
+    return (x, y, z)
+
+                
+class GraphForOnSphere_Planar(Graph):
+    def construct(self):
+        super().construct()
+        self.vertices = [
+            (-0.25, -0.25, 0),
+            (-0.5,  1, 0),
+            ( 1,  1, 0),
+            ( 1, -1, 0),
+            (3.5,  1, 0),
+            (-2,  3, 0),
+            (-2, -2, 0)
+        ]
+        self.edges = [
+            (0, 1),
+            (2, 3),
+            (3, 0),
+            (1, 2),
+            (4, 5),
+            (2, 4),
+            (3, 4),
+            (0, 5),
+            (1, 5),
+            (5, 6),
+            (6, 3)
+        ]
+        SCALE_FACTOR = 1.3
+        self.vertices = [
+            (v[0] * SCALE_FACTOR,
+             v[1] * SCALE_FACTOR,
+             v[2] * SCALE_FACTOR)
+            for v in self.vertices
+        ]
+
+STEREO_SCALE = 3
+        
+class GraphForOnSphere_OnSphere(GraphForOnSphere_Planar):
+    def construct(self):
+        super().construct()
+        self.vertices = [
+            stereographic_projection(v[0], v[1], STEREO_SCALE)
+            for v in self.vertices
+        ]
+
+        
+class PlaneToSphereScene(ThreeDSurfaceGraphScene):
+    def construct(self):
+        axes = ThreeDAxes()
+
+        self.graph = GraphForOnSphere_Planar()
+        super().construct()
+        self.set_camera_orientation(phi=60 * DEGREES,theta=-60*DEGREES)
+        self.add(axes)
+        self.draw(self.vertices)
+        self.draw(self.edges)
+        self.wait()
+        a=STEREO_SCALE
+        on_sphere = OurGraphTheory(GraphForOnSphere_OnSphere())
+        on_sphere.construct()
+        
+        graph_trans = zip(
+            self.vertices + self.edges,
+            on_sphere.vertices + on_sphere.edges
+        )
+        self.play(*[
+            Transform(mobj1, mobj2)
+            for mobj1,mobj2 in graph_trans
+        ])
+        self.wait()
+        
+
+
+        trr = ParametricSurface(
+            lambda u, v : np.array([
+                 a * np.cos(TAU * u) * np.sin(TAU * v),
+                 a * np.sin(TAU * u) * np.sin(TAU * v),
+                 a * np.cos(TAU * v)
+             ]),
+            resolution=(16, 32)).fade(0.7) #Resolution of the surfaces
+
+        self.play(Write(trr))
+        self.wait()
+
+
+        
+        
 
