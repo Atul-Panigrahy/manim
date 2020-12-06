@@ -29,25 +29,43 @@ class IntroGraphScene(OurGraphTheory):
         self.graph = K33()
         super().construct()
 
+        self.shift_graph(DOWN + LEFT*2)
+
+        take_k4 = TextMobject("A graph is planar if some embedding of it \\\\ onto the plane has no edge intersections.")
+        take_k4.shift(UP*3)
+        self.play(Write(take_k4))
+
+        self.wait(2)
+
         self.play(*(self.draw(self.edges[:-1], play=False) + self.draw(self.vertices, play=False)))
-        planar = TextMobject("Planar Graph")
-        planar.next_to(self.vertices[3], DOWN*2)
+        planar = TextMobject("Planar Graph", alignment="\\justify")
+        planar.shift(RIGHT*3)
         self.play(Write(planar))
         self.wait(2)
 
         self.draw(self.edges[-1])
 
-        nonplanar = TextMobject("Nonplanar Embedding", color=RED)
-        nonplanar.next_to(self.vertices[3], DOWN*2)
+        nonplanar = TextMobject("Nonplanar \\\\ Embedding", color=RED, alignment="\\justify")
+        nonplanar.shift(RIGHT*3)
 
-        circle = Circle(radius=0.5, color=RED)
+
+        circle = Circle(radius=0.5, color=RED).next_to(self.edges[-1], ORIGIN)
         self.play(ShowCreation(circle, run_time=0.5))
         self.play(Transform(planar, nonplanar))
-        self.wait(0.5)
+        self.wait(2)
         self.play(FadeOut(circle, run_time=0.5))
+        self.wait(1)
 
-        existence = Text("Are there any planar embeddings of this graph?", font='Consolas', size=0.5)
-        #existence.scale(0.5)
+        existence = TextMobject("Are there any planar \\\\ embeddings of this graph?", alignment="\\justify")
+        existence.scale(0.5)
         existence.next_to(nonplanar, DOWN)
+        existence.shift(RIGHT*0.25)
         self.play(Write(existence, run_time=0.5))
         self.wait(2)
+
+        erase_anims = self.erase(self.vertices, play=False)
+        erase_anims += self.erase(self.edges, play=False)
+        erase_anims += [FadeOut(existence), FadeOut(planar), FadeOut(take_k4)]
+        
+        self.play(*erase_anims)
+        self.wait()

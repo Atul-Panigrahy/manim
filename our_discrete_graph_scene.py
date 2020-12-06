@@ -211,6 +211,18 @@ class OurGraphTheory(Scene):
                           len(self.traced_cycle))
         return self.traced_cycle
 
+    def trace_arc_cycle_with_edges(self, edges, play=True, color=RED, run_time=2.0):
+        self.traced_cycle = [
+            self.graph.eclasses[idx](*e.get_start_and_end()).set_color(color)
+            for (idx, e) in enumerate(edges)
+        ]
+        if play:
+            for c in self.traced_cycle:
+                self.play(ShowCreation(c),
+                          run_time=run_time /
+                          len(self.traced_cycle))
+        return self.traced_cycle
+
     def annotate_edges(self, mobject, fade_in=True, **kwargs):
         angles = list(map(np.arctan, list(map(Line.get_slope, self.edges))))
         self.edge_annotations = [

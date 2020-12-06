@@ -110,8 +110,8 @@ class MainProofScene(OurGraphTheory):
         self.play(Write(C_label))
 
         instr2 = TextMobject("Loop along upper \\\\ part of C?", alignment="\\justify")
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # draw upper vertices and the edge
@@ -120,8 +120,8 @@ class MainProofScene(OurGraphTheory):
         self.draw(self.edges[7])
 
         instr2 = TextMobject("Contradiction: \\\\ larger cycle.", alignment="\\justify", color=RED)
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # trace bad cycle
@@ -136,8 +136,8 @@ class MainProofScene(OurGraphTheory):
         self.wait()
 
         instr2 = TextMobject("Loop along lower \\\\ part of C?", alignment="\\justify")
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # draw lower vertices and the edge
@@ -146,8 +146,8 @@ class MainProofScene(OurGraphTheory):
         self.draw(self.edges[9])
 
         instr2 = TextMobject("Contradiction: \\\\ larger cycle.", alignment="\\justify", color=RED)
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # trace bad cycle
@@ -161,17 +161,17 @@ class MainProofScene(OurGraphTheory):
         self.play(*anims)
         self.wait()
 
-        instr2 = TextMobject("Need obstruction \\\\ to $uv$ on outside", alignment="\\justify")
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2 = TextMobject("$G$ is nonplanar, \\\\ so we need an \\\\ obstruction to $uv$ \\\\ on the outside of $C$." , alignment="\\justify")
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # draw bad uv edge
         self.draw(self.edges[6])
 
-        instr2 = TextMobject("There must exist \\\\ a path $v_i v_j$", alignment="\\justify")
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2 = TextMobject("There must exist \\\\ a path $v_i v_j$ \\\\ that blocks $uv$", alignment="\\justify")
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         p_vertices = [2,7,4,8]
@@ -187,9 +187,16 @@ class MainProofScene(OurGraphTheory):
 
         # ---------------- OBSTRUCTIONS ------------------------------------------
 
+        instr2 = TextMobject("The inside of $C$ must \\\\ contain an obstruction \\\\ to $uv$ and to $v_i v_j$.", alignment="\\justify")
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
+        self.play(Transform(instr, instr2))
+
+        self.wait(2)
+
         instr2 = TextMobject("Obstruction 1:", alignment="\\justify")
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # draw obs1 vertices and edges
@@ -218,8 +225,8 @@ class MainProofScene(OurGraphTheory):
         self.play(*anims)
 
         instr2 = TextMobject("Obstruction 2:", alignment="\\justify")
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # draw obs2 vertices and edges
@@ -244,8 +251,8 @@ class MainProofScene(OurGraphTheory):
         self.play(*anims)
 
         instr2 = TextMobject("Obstruction 3:", alignment="\\justify")
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # draw obs3 vertices and edges
@@ -269,9 +276,9 @@ class MainProofScene(OurGraphTheory):
         anims += [FadeOut(k33)]
         self.play(*anims)
 
-        instr2 = TextMobject("Obstruction 4", alignment="\\justify")
-        instr2.scale(0.75)
-        instr2.shift(RIGHT*4)
+        instr2 = TextMobject("Obstruction 4:", alignment="\\justify")
+        instr2.scale(0.8)
+        instr2.shift(RIGHT*3.5)
         self.play(Transform(instr, instr2))
 
         # draw obs4 vertices and edges

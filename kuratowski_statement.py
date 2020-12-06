@@ -83,7 +83,7 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
 
         self.shift_graph(LEFT*3)
 
-        f1 = TextMobject("Kuratowski's Theorem: \\\\ A graph is nonplanar iff it has a subgraph \\\\ which is a subdivision of $K_5$ or $K_{3,3}$")
+        f1 = TextMobject("Kuratowski's Theorem: \\\\ A graph is nonplanar $\\Longleftrightarrow$ it has a subgraph \\\\ which is a subdivision of $K_5$ or $K_{3,3}$")
         f1.shift(UP*3)
         f1.scale(1)
         self.play(Write(f1))
