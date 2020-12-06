@@ -98,7 +98,11 @@ class MainProofScene(OurGraphTheory):
 
         self.draw(self.edges[:6])
         self.draw(self.edges[-2:])
-        cycle = self.trace_cycle([0,1,2,3])
+        cycle = self.trace_arc_cycle_with_edges([self.edges[i] for i in [0,1,2,28]])
+        self.play(*[FadeOut(c, run_time=0.5) for c in cycle])
+        cycle = self.trace_arc_cycle_with_edges([self.edges[i] for i in [27,28]])
+        self.play(*[FadeOut(c, run_time=0.5) for c in cycle])
+        cycle = self.trace_arc_cycle_with_edges(self.edges[:6], color=GREEN)
         self.play(*[FadeOut(c, run_time=0.5) for c in cycle])
         self.erase_copy(self.edges[-2:])
 
