@@ -22,6 +22,11 @@ INSTANT = 0.000001
 
 class K33OnTorus(OurGraphTheory):
     def construct(self):
+        f2 = TextMobject("$K_{3,3}$ can be embedded on a torus!")
+        self.play(Write(f2))
+        self.wait(1)
+        self.play(FadeOut(f2))
+
         self.graph = K33()
         super().construct()
         # 2 5

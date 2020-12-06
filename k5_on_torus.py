@@ -50,6 +50,12 @@ class K5OnTorus(OurGraphTheory):
     def construct(self):
         self.graph = K5ForTorus()
         super().construct()
+
+        f2 = TextMobject("So can $K_{5}$!")
+        self.play(Write(f2))
+        self.wait(1)
+        self.play(FadeOut(f2))
+
         # 2 5
         # 1 4
         # 0 3
