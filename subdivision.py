@@ -76,7 +76,7 @@ class PlanarSubgraphScene(OurGraphTheory):
         self.draw(to_return)
         self.wait()
 
-        subgraph_planar = TextMobject("Subgraphs of planar graphs are planar")
+        subgraph_planar = TextMobject("Subgraph is planar $\iff$ Graph is planar")
         subgraph_planar.shift(UP*3)
         self.play(ReplacementTransform(subgraph_def, subgraph_planar))
         self.wait()
@@ -106,7 +106,7 @@ class PlanarSubgraphScene(OurGraphTheory):
         self.erase_copy([new_dot])
         
         
-        subdivision_planar = TextMobject("Subdivisions of a planar graph are planar.")
+        subdivision_planar = TextMobject("Subdivisions is planar $\iff$ Graph is planar")
         subdivision_planar.shift(UP*3)
 
         self.play(Transform(subdivision_def, subdivision_planar))
