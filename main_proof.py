@@ -177,7 +177,7 @@ class MainProofScene(OurGraphTheory):
 
         # ---------------- OBSTRUCTIONS ------------------------------------------
 
-        instr2 = TextMobject("Obstruction 1: \\\\ contains $K_{3,3}$", alignment="\\justify", color=RED)
+        instr2 = TextMobject("Obstruction 1:", alignment="\\justify")
         instr2.scale(0.75)
         instr2.shift(RIGHT*4)
         self.play(Transform(instr, instr2))
@@ -188,21 +188,26 @@ class MainProofScene(OurGraphTheory):
         self.draw([self.vertices[i] for i in obstruction_vertices])
         self.draw([self.edges[i] for i in obstruction_edges])
 
+        k33 = TextMobject("$G$ contains $K_{3,3}$", alignment="\\justify", color=RED)
+        k33.scale(0.75)
+        k33.next_to(instr, DOWN)
+        self.play(Write(k33))
+
         # highlight K33
         self.draw(self.edges[27])
         red_verts = [13,3,8]
         green_verts = [0,7,15]
         colors = [RED]*3 + [GREEN]*3
-        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=2)
+        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=3)
 
         # fadeout obs1 vertices and edges
         anims = self.erase_copy([self.edges[i] for i in obstruction_edges], play=False)
         anims += self.erase_copy([self.vertices[i] for i in obstruction_vertices], play=False)
         anims += self.erase_copy(self.edges[27], play=False)
+        anims += [FadeOut(k33)]
         self.play(*anims)
-        self.wait()
 
-        instr2 = TextMobject("Obstruction 2: \\\\ contains $K_{3,3}$", alignment="\\justify", color=RED)
+        instr2 = TextMobject("Obstruction 2:", alignment="\\justify")
         instr2.scale(0.75)
         instr2.shift(RIGHT*4)
         self.play(Transform(instr, instr2))
@@ -213,20 +218,22 @@ class MainProofScene(OurGraphTheory):
         self.draw([self.vertices[i] for i in obstruction_vertices])
         self.draw([self.edges[i] for i in obstruction_edges])
 
+        self.play(Write(k33))
+
         # highlight K33
         self.draw(self.edges[27])
         red_verts = [12,8,3]
         green_verts = [0,14,15]
-        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=2)
+        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=3)
 
         # fadeout obs2 vertices and edges
         anims = self.erase_copy([self.edges[i] for i in obstruction_edges], play=False)
         anims += self.erase_copy([self.vertices[i] for i in obstruction_vertices], play=False)
         anims += self.erase_copy(self.edges[27], play=False)
+        anims += [FadeOut(k33)]
         self.play(*anims)
-        self.wait()
 
-        instr2 = TextMobject("Obstruction 3: \\\\ contains $K_{3,3}$", alignment="\\justify", color=RED)
+        instr2 = TextMobject("Obstruction 3:", alignment="\\justify")
         instr2.scale(0.75)
         instr2.shift(RIGHT*4)
         self.play(Transform(instr, instr2))
@@ -237,20 +244,22 @@ class MainProofScene(OurGraphTheory):
         self.draw([self.vertices[i] for i in obstruction_vertices])
         self.draw([self.edges[i] for i in obstruction_edges])
 
+        self.play(Write(k33))
+
         # highlight K33
         self.draw(self.edges[27])
         red_verts = [0,11,8]
         green_verts = [10,7,3]
-        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=2)
+        self.accent_vertices([self.vertices[i] for i in red_verts + green_verts], colors=colors, run_time=3)
 
         # fadeout obs3 vertices and edges
         anims = self.erase_copy([self.edges[i] for i in obstruction_edges], play=False)
         anims += self.erase_copy([self.vertices[i] for i in obstruction_vertices], play=False)
         anims += self.erase_copy(self.edges[27], play=False)
+        anims += [FadeOut(k33)]
         self.play(*anims)
-        self.wait()
 
-        instr2 = TextMobject("Obstruction 4: \\\\ contains $K_5$", alignment="\\justify", color=RED)
+        instr2 = TextMobject("Obstruction 4", alignment="\\justify")
         instr2.scale(0.75)
         instr2.shift(RIGHT*4)
         self.play(Transform(instr, instr2))
@@ -261,12 +270,20 @@ class MainProofScene(OurGraphTheory):
         self.draw([self.vertices[i] for i in obstruction_vertices])
         self.draw([self.edges[i] for i in obstruction_edges])
 
+        k5 = TextMobject("$G$ contains $K_{5}$", alignment="\\justify", color=RED)
+        k5.scale(0.75)
+        k5.next_to(instr, DOWN)
+        self.play(Write(k5))
+
         # highlight K33
         self.draw(self.edges[27])
+
+        self.wait(2)
 
         # fadeout obs4 vertices and edges
         anims = self.erase_copy([self.edges[i] for i in obstruction_edges], play=False)
         anims += self.erase_copy([self.vertices[i] for i in obstruction_vertices], play=False)
         anims += self.erase_copy(self.edges[27], play=False)
+        anims += [FadeOut(k5)]
         self.play(*anims)
         self.wait()
