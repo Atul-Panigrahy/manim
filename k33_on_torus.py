@@ -120,5 +120,4 @@ class K33OnTorus(OurGraphTheory):
         ], run_time = 1.3)        
                 
             
-        self.wait()
-        self.wait()
+        self.wait(3)

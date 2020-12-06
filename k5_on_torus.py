@@ -148,7 +148,4 @@ class K5OnTorus(OurGraphTheory):
             for edge in sum(replacements, [])
         ], run_time = 1.3)        
                 
-            
-        self.wait()
-        self.wait()
-
+        self.wait(3)
