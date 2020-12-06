@@ -2,7 +2,7 @@ from manimlib.imports import *
 
 class IntroSlide(Scene):
     def construct(self):
-        title = TextMobject("Kurtowski's Theorem")
+        title = TextMobject("Kuratowski's Theorem")
         title.scale(2)
 
         credit = TextMobject("by: David Cabatingan, Ken Cole, and Petar Peshev")
