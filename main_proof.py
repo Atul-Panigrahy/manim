@@ -70,10 +70,12 @@ class MainGraph(Graph):
             (12, 2),
             (12, 4),
             # complete path uv (27)
-            (0,3)
+            (0,3),
+            # reverse of complete path vu (28)
+            (3,0),
         ]           
 
-        self.eclasses = [CURVE_OUT]*6 + [CURVE_OUT_HUGE_RED] + [CURVE_OUT_HUGE]*2 + [CURVE_OUT_HUGE] + [Line]*17 + [CURVE_OUT]
+        self.eclasses = [CURVE_OUT]*6 + [CURVE_OUT_HUGE_RED] + [CURVE_OUT_HUGE]*2 + [CURVE_OUT_HUGE] + [Line]*17 + [CURVE_OUT] + [CURVE_OUT]
 
 class MainProofScene(OurGraphTheory):
     def construct(self):
@@ -89,15 +91,19 @@ class MainProofScene(OurGraphTheory):
                             TextMobject("$u$").scale(0.8 ).next_to(u, LEFT*0.5))
         self.play(Write(u_label), Write(v_label))
 
-        instr = TextMobject("Embed cycle $C$ \\\\ containing $u, v$.", alignment="\\justify")
+        instr = TextMobject("Embed maximal cycle $C$ \\\\ containing $u, v$.", alignment="\\justify")
         instr.scale(0.75)
         instr.shift(RIGHT*4)
         self.play(Write(instr, run_time=0.75))
 
         self.draw(self.edges[:6])
-        #self.wait()
+        self.draw(self.edges[-2:])
+        cycle = self.trace_cycle([0,1,2,3])
+        self.play(*[FadeOut(c, run_time=0.5) for c in cycle])
+        self.erase_copy(self.edges[-2:])
 
-        self.wait()
+        C_label = TextMobject("$C$").scale(0.8).next_to(self.edges[1], DOWN*.3)
+        self.play(Write(C_label))
 
         instr2 = TextMobject("Loop along upper \\\\ part of C?", alignment="\\justify")
         instr2.scale(0.75)
