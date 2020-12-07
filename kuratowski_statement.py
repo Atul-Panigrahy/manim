@@ -165,11 +165,12 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
 
         prelim = BulletedList(
             "Planar Graphs and their Properties",
+            "Define $K_5$ and $K_{3,3}$",
             "Subgraphs and Subdivisions",
             "2-Connected Graphs and their Properties"
         ).next_to(prelim_title, DOWN * 1.5)
         self.play(Write(prelim_title), Write(prelim))
-        self.wait(5.5)
+        self.wait(7.5)
         self.play(*[
             FadeOut(t)
             for t in [prelim, prelim_title, f1]
