@@ -57,6 +57,13 @@ class K33TargetGraph(Graph):
             (1,-1,0),
             (0,1,0),
         ]
+        SCALE = 1.6
+        self.vertices = [
+            (v[0] * SCALE,
+             v[1] * SCALE,
+             v[2] * SCALE)
+            for v in self.vertices
+        ]
         self.edges = [
             (0,6),
             (6,3),
@@ -74,7 +81,7 @@ class K33TargetScene(OurGraphTheory):
     def construct(self):
         self.graph = K33TargetGraph()
         super().construct()
-        self.shift_graph(RIGHT*3)
+        self.shift_graph(RIGHT*2 + DOWN * 0.5)
         for i in [0, 1, 2]:
             self.vertices[i].set_color(RED)
         for i in [3, 4, 5]:
@@ -88,9 +95,10 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
         self.shift_graph(LEFT*3+0.5*DOWN)
 
         f1 = TextMobject("Kuratowski's Theorem: \\\\ A graph is nonplanar $\\Longleftrightarrow$ it has a subgraph \\\\ which is a subdivision of $K_5$ or $K_{3,3}$")
-        f1.shift(UP*3)
+        f1.shift(UP*2.5)
         f1.scale(1)
         self.play(Write(f1))
+        self.wait(5)
 
         self.draw(self.edges)
         self.draw(self.vertices)
@@ -99,8 +107,9 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
         f2 = TextMobject("Nonplanar graph $G$")
         f2.shift(DOWN*3)
         f2.scale(1)
-        self.play(Write(f2))
-
+        self.play(Write(f2), run_time = 0.5)
+        self.wait(3)
+        
         red_verts = [0,1,2]
         green_verts = [3,4,5]
 
@@ -122,7 +131,7 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
         )
         #self.play(*[Transform(self.vertices[i], self.vertices[i]) for i in red_verts + green_verts])
 
-        self.wait()
+        self.wait(4)
 
         old_verts = self.vertices[:7]
         old_edges = self.edges[:10]
@@ -130,25 +139,25 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
         remove_edges = self.edges[10:]
         remove_verts = self.vertices[7:]  
 
-        self.erase(remove_edges + remove_verts)
+        erasures = self.erase(remove_edges + remove_verts, play = False)
 
         f3 = TextMobject("Subgraph of $G$")
         f3.shift(DOWN*3)
         f3.scale(1)
-        self.play(Transform(f2,f3))
-
+        self.play(*([Transform(f2,f3)] + erasures))
+        self.wait(2)
         new_graph_scene = K33TargetScene()
 
         v_transforms = [Transform(v1,v2, run_time=2) for (v1, v2) in zip(old_verts, new_graph_scene.vertices)]
         e_transforms = [Transform(e1,e2, run_time=2) for (e1, e2) in zip(old_edges, new_graph_scene.edges)]
 
-        self.play(*(v_transforms + e_transforms))
+#        self.play(*(v_transforms + e_transforms))
 
-        f3 = TextMobject("Subgraph is a subdivison of $K_{3,3}$")
+        f3 = TextMobject("Subgraph is a subdivision of $K_{3,3}$")
         f3.shift(DOWN*3)
         f3.scale(1)
-        self.play(Transform(f2,f3))
-        self.wait(4)
+        self.play(*(v_transforms + e_transforms + [Transform(f2,f3)]))
+        self.wait(6)
 
         self.erase(old_verts+old_edges+[f2])
 
@@ -156,11 +165,17 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
 
         prelim = BulletedList(
             "Planar Graphs and their Properties",
+            "Define $K_5$ and $K_{3,3}$",
             "Subgraphs and Subdivisions",
             "2-Connected Graphs and their Properties"
-        ).next_to(prelim_title, DOWN)
+        ).next_to(prelim_title, DOWN * 1.5)
         self.play(Write(prelim_title), Write(prelim))
-        self.wait(10)
+        self.wait(7.5)
+        self.play(*[
+            FadeOut(t)
+            for t in [prelim, prelim_title, f1]
+            ])
+        self.wait()
 
 
 

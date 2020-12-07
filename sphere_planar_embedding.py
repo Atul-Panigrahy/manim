@@ -376,3 +376,8 @@ class PlaneToSphereScene(ThreeDSurfaceGraphScene):
         
         
 
+class All(Scene):
+    def construct(self):
+        Intro.construct()
+        SphereToPlaneScene.construct()
+        PlaneToSphereScene.construct()
