@@ -107,8 +107,8 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
         f2 = TextMobject("Nonplanar graph $G$")
         f2.shift(DOWN*3)
         f2.scale(1)
-        self.play(Write(f2))
-        self.wait(2.5)
+        self.play(Write(f2), run_time = 0.5)
+        self.wait(3)
         
         red_verts = [0,1,2]
         green_verts = [3,4,5]
@@ -131,7 +131,7 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
         )
         #self.play(*[Transform(self.vertices[i], self.vertices[i]) for i in red_verts + green_verts])
 
-        self.wait(3)
+        self.wait(4)
 
         old_verts = self.vertices[:7]
         old_edges = self.edges[:10]
@@ -153,7 +153,7 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
 
 #        self.play(*(v_transforms + e_transforms))
 
-        f3 = TextMobject("Subgraph is a subdivison of $K_{3,3}$")
+        f3 = TextMobject("Subgraph is a subdivision of $K_{3,3}$")
         f3.shift(DOWN*3)
         f3.scale(1)
         self.play(*(v_transforms + e_transforms + [Transform(f2,f3)]))
@@ -169,7 +169,7 @@ class KuratowskiStatementForwardScene(OurGraphTheory):
             "2-Connected Graphs and their Properties"
         ).next_to(prelim_title, DOWN * 1.5)
         self.play(Write(prelim_title), Write(prelim))
-        self.wait(8)
+        self.wait(5.5)
         self.play(*[
             FadeOut(t)
             for t in [prelim, prelim_title, f1]
