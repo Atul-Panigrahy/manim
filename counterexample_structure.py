@@ -46,7 +46,7 @@ class CounterExample2CGraph(Graph):
             (-1, -0.5, 0),
             (-1, 0.5, 0),
             (-2, 0.5, 0),
-            (-2, -0.5, 0)
+        #    (-2, -0.5, 0)
         ]
 
         self.edges = [(i, i+1) for i in range(len(self.vertices) - 1)]
@@ -70,30 +70,58 @@ class Counter2ConnectedScene(OurGraphTheory):
         desc1.scale(0.75)
         desc1.shift(RIGHT*3)
         self.play(Write(desc1, run_time=0.75))
+        self.wait(1)
+
+        vert_graph_points = [
+            (-4, 0.5, 0),
+            (-4, -0.5, 0)
+        ]
+        vert_graph_verts = [
+            Dot(p) for p in vert_graph_points
+        ]
+        vert_graph_edges = [
+            Line(vert_graph_points[0],
+                 vert_graph_points[1])
+        ]
+
+        self.draw(self.vertices + vert_graph_verts)
+        self.draw(self.edges + vert_graph_edges)
+        print(self.edges[0].get_center())
+
         self.wait(2)
 
-        self.draw(self.vertices)
-        self.draw(self.edges)
-
-        self.wait(2)
-
-        circle = Circle(radius=0.5, color=RED)
+        circle = Circle(radius=0.7, color=RED)
         circle.next_to(self.vertices[6], ORIGIN) 
         self.play(ShowCreation(circle, run_time=0.5))
-        self.wait(0.5)
+        self.wait(3.5)
+        self.play(*([MoveAlongPath(v, ParametricFunction(
+            lambda t: v.get_center() + [t**2 / 2, 0, 0],
+            t_min=0,
+            t_max=1,
+            ))
+            for v in self.edges + self.vertices
+        ] + [MoveAlongPath(v, ParametricFunction(
+            lambda t: v.get_center() + [ - t**2 / 2, 0, 0],
+            t_min=0,
+            t_max=1,
+            ))
+             for v in vert_graph_edges + vert_graph_verts
+        ]))
+
         self.play(FadeOut(circle, run_time=0.5))
-
-        self.erase([self.vertices[6]] + self.edges[5:7])
-
+        self.wait(2)
         desc2 = TextMobject("Smaller \\\\ counterexample.", color=RED, alignment="\\justify")
         desc2.scale(0.75)
         desc2.shift(RIGHT*3)
         self.play(Transform(desc1, desc2))
 
-        self.wait(2)
+        self.wait(3.5)
 
-        erase_anims = self.erase(self.vertices[:6] + self.vertices[7:], play=False)
-        erase_anims += self.erase(self.edges[:5] + self.edges[7:], play=False)
+        erase_anims = self.erase(self.vertices, play=False)
+        erase_anims += self.erase(self.edges, play=False)
+        erase_anims += self.erase(vert_graph_verts +
+                                  vert_graph_edges,
+                                  play = False)
         erase_anims += [FadeOut(desc1), FadeOut(f1)]
 
         self.play(*erase_anims)

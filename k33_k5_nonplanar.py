@@ -45,19 +45,25 @@ class K33_Nonplanar(OurGraphTheory):
         # 1 4
         # 0 3
 
+        removals = []
+
         lemma = TextMobject("Lemma: $K_{3, 3}$ is Nonplanar")
         lemma.shift(UP * 3.5)
         self.play(Write(lemma))
+        removals.append(lemma)
         
         self.draw(self.vertices)
         self.draw(self.edges)
         self.wait()
         # V - E + F = 2
+ #       removals.extend(self.vertices)
+ #       removals.append(self.edges)
 
         eulers_form = TextMobject("$V - E + F = 2$")
         eulers_form.shift(LEFT * 4.5 + UP * 2.5)
         self.play(Write(eulers_form))
         self.wait(2.5)
+        removals.append(eulers_form)
         
         # V = 6
         self.accent_vertices()
@@ -65,6 +71,7 @@ class K33_Nonplanar(OurGraphTheory):
         eulers_form.shift(LEFT * 4.5 + UP * 1.5)
         self.play(Write(eulers_form))
         self.wait(2.5)
+        removals.append(eulers_form)
 
         # E = 9
         self.accent_edges()
@@ -72,17 +79,20 @@ class K33_Nonplanar(OurGraphTheory):
         eulers_form.shift(LEFT * 4.5 + UP * 0.5)
         self.play(Write(eulers_form))
         self.wait(2.5)
+        removals.append(eulers_form)
         
         # F = 5
         eulers_form = TextMobject("$F = 5$")
         eulers_form.shift(LEFT * 4.5 + DOWN * 0.5)
         self.play(Write(eulers_form))
         self.wait(2.5)
+        removals.append(eulers_form)
         
         
         eulers_form = TextMobject("No 3 Edge Faces")
         eulers_form.shift(RIGHT * 4.5 + UP * 2.5)
-        self.play(Write(eulers_form))    
+        self.play(Write(eulers_form))
+        removals.append(eulers_form)
         
         # no 3 edge cycles
         three_cycles = [
@@ -103,11 +113,13 @@ class K33_Nonplanar(OurGraphTheory):
         edges_faces.shift(RIGHT * 4.5 + UP * 2.5)
         self.play(Write(edges_faces))    
         self.wait(2.5)
+        removals.append(edges_faces)
 
         edges_faces = TextMobject("$4F \leq 2E$")
         edges_faces.shift(RIGHT * 4.5 + UP * 1.5)
         self.play(Write(edges_faces))    
         self.wait(1.5)
+        removals.append(edges_faces)
         
         # E = 9
         self.accent_edges()
@@ -115,11 +127,13 @@ class K33_Nonplanar(OurGraphTheory):
         edges_faces.shift(RIGHT * 4.5 + UP * 0.5)
         self.play(Write(edges_faces))
         self.wait(1.5)
+        removals.append(edges_faces)
 
         edges_faces = TextMobject("$F \leq 4.5$")
         edges_faces.shift(RIGHT * 4.5 + DOWN * 0.5)
         self.play(Write(edges_faces))
         self.wait(2.5)
+        removals.append(edges_faces)
 
         #thus 4f <= 2e gives f <= 3
         #gives 5 <= 3 contradiction
@@ -128,9 +142,13 @@ class K33_Nonplanar(OurGraphTheory):
         contradiction.shift(DOWN * 2.5)
         self.play(Write(contradiction))
         self.wait(1.5)
+        removals.append(contradiction)
 
         contradiction2 = TextMobject("$5 \leq 4.5$")
         contradiction2.shift(DOWN * 2.5)
         self.play(Transform(contradiction, contradiction2))
-        self.wait(2.5)
+        self.wait(4.5)
+        removals.append(contradiction2)
+
+        self.play(*[FadeOut(v) for v in removals + self.vertices + self.edges])
         

@@ -105,8 +105,8 @@ class ThreeDSurfaceGraphScene(ThreeDScene):
             for i, j in self.edge_vertices
         ]
 
-    def draw(self, mobjects, **kwargs):
-        self.play(*[ShowCreation(mobj, run_time=1.0) 
+    def draw(self, mobjects, run_time = 1.0, **kwargs):
+        self.play(*[ShowCreation(mobj, run_time=run_time) 
                     for mobj in mobjects])
 
     def erase(self, mobjects, **kwargs):
@@ -224,7 +224,7 @@ class SphereToPlaneScene(ThreeDSurfaceGraphScene):
                  a * np.sin(TAU * u) * np.sin(TAU * v),
                  a * np.cos(TAU * v)
              ]),
-            resolution=(6, 6)).fade(0.7) #Resolution of the surfaces
+            resolution=(32, 64)).fade(0.7) #Resolution of the surfaces
         def project_onto_unit_cube(x, y, z):
             return np.array([x, y, z]) / max(abs(x),
                                              abs(y),
@@ -236,20 +236,20 @@ class SphereToPlaneScene(ThreeDSurfaceGraphScene):
                  np.sin(TAU * u) * np.sin(TAU * v),
                  np.cos(TAU * v)
              ),
-            resolution=(6, 6)).fade(0.7) #Resolution of the surfaces
+            resolution=(32, 64)).fade(0.7) #Resolution of the surfaces
 
         self.set_camera_orientation(phi=60 * DEGREES,theta=-60*DEGREES)
 
         self.add(axes)
 
-        self.play(Write(trr))
+        self.play(Write(trr), run_time = 1)
         self.wait()
-        self.play(ReplacementTransform(trr, trr2))
+        self.play(ReplacementTransform(trr, trr2), run_time = 1)
         self.wait()
         self.graph = CubeGraphOnSphere()
         super().construct()
 
-        self.draw(self.vertices)
+        self.draw(self.vertices, run_time = 0.00001)
         self.draw(self.edges)
         self.wait()
 
@@ -260,7 +260,7 @@ class SphereToPlaneScene(ThreeDSurfaceGraphScene):
         )
         self.wait(0.5)
 
-        self.play(FadeOut(trr2))
+        self.play(FadeOut(trr2), run_time = 0.5)
         self.remove(trr2)
         
         planar = OurGraphTheory(CubeGraph())
@@ -278,7 +278,11 @@ class SphereToPlaneScene(ThreeDSurfaceGraphScene):
             Transform(mobj1, mobj2)
             for mobj1,mobj2 in graph_trans
         ])
-        self.wait()
+        self.wait(3)
+        self.play(*[
+            FadeOut(v) for v in \
+            self.vertices + self.edges + cycle
+            ])
 
 def stereographic_projection(X, Y, scale):
     X /= scale
@@ -333,6 +337,15 @@ class GraphForOnSphere_OnSphere(GraphForOnSphere_Planar):
             for v in self.vertices
         ]
 
+class IntroMessage(Scene):
+    def construct(self):
+        f1 = TextMobject("Euler's Formula: \\\\ $V - E + F = 2$ for convex polyhedra \\\\$ $ \\\\ We will generalize it to planar graphs \\\\ by using stereographic projection")
+        f1.shift(UP*1)
+        f1.scale(1)
+        self.play(Write(f1))
+        self.wait(6)
+        self.play(FadeOut(f1))
+
         
 class PlaneToSphereScene(ThreeDSurfaceGraphScene):
     def construct(self):
@@ -353,6 +366,7 @@ class PlaneToSphereScene(ThreeDSurfaceGraphScene):
             self.vertices + self.edges,
             on_sphere.vertices + on_sphere.edges
         )
+        self.wait(3)
         self.play(*[
             Transform(mobj1, mobj2)
             for mobj1,mobj2 in graph_trans
@@ -367,17 +381,13 @@ class PlaneToSphereScene(ThreeDSurfaceGraphScene):
                  a * np.sin(TAU * u) * np.sin(TAU * v),
                  a * np.cos(TAU * v)
              ]),
-            resolution=(16, 32)).fade(0.7) #Resolution of the surfaces
+            resolution=(32, 64)).fade(0.7) #Resolution of the surfaces
 
         self.play(Write(trr))
         self.wait()
+        self.play(*[
+            FadeOut(v) for v in \
+            [trr, axes] + self.vertices + self.edges
+            ])
 
 
-        
-        
-
-class All(Scene):
-    def construct(self):
-        Intro.construct()
-        SphereToPlaneScene.construct()
-        PlaneToSphereScene.construct()
