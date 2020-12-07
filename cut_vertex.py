@@ -26,6 +26,13 @@ class CutVertexScene(OurGraphTheory):
         self.graph = CutVertexGraph()
         super().construct()
 
+
+        title = TextMobject("2-Connectedness").scale(1.5)
+        self.play(Write(title))
+        self.wait()
+        self.play(FadeOut(title))
+
+
         f1 = TextMobject("Definition: a graph is $2$-connected if it cannot be \\\\ disconnected by removing a single vertex.")
         f1.shift(UP*3)
         f1.scale(1)
