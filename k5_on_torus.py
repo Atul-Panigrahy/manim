@@ -65,17 +65,24 @@ class K5OnTorus(OurGraphTheory):
 
         torus_creation_time = 1.5
         
+        l1 = Line((-3, 0, 0), (-3, 3, 0), color=PINK)
+        l2 = Line((-3, 0, 0), (-3,-3, 0), color=PINK)
+        l3 = Line((-3, 3, 0), (3, 3, 0), color=PINK)
+        l4 = Line((-3,-3, 0), (3,-3, 0), color=PINK)
+        l5 = Line((3, 3, 0), (3, 0, 0), color=PINK)
+        l6 = Line((3,-3, 0), (3, 0, 0), color=PINK)
+
         self.play(*[
-            ShowCreation(Line((-3, 0, 0), (-3, 3, 0), color=PINK)),
-            ShowCreation(Line((-3, 0, 0), (-3,-3, 0), color=PINK))
+            ShowCreation(l1),
+            ShowCreation(l2)
             ], run_time = torus_creation_time / 6)
         self.play(*[
-            ShowCreation(Line((-3, 3, 0), (3, 3, 0), color=PINK)),
-            ShowCreation(Line((-3,-3, 0), (3,-3, 0), color=PINK))
+            ShowCreation(l3),
+            ShowCreation(l4)
             ], run_time = 2 * torus_creation_time / 6)
         self.play(*[
-            ShowCreation(Line((3, 3, 0), (3, 0, 0), color=PINK)),
-            ShowCreation(Line((3,-3, 0), (3, 0, 0), color=PINK))
+            ShowCreation(l5),
+            ShowCreation(l6)
             ], run_time = torus_creation_time / 6)
         arrows = [ArrowTip() for x in range(4)]
         [arr.set_color(PINK) for arr in arrows]
@@ -131,6 +138,7 @@ class K5OnTorus(OurGraphTheory):
             for edge in sum(replacements, [])
         ], run_time = 1.3)
 
+        added_edges = replacements
         replacements = [replace_edge_with_two(8)]
 
         self.play(*[
@@ -147,6 +155,7 @@ class K5OnTorus(OurGraphTheory):
                 end[1] = 3
             return Line(start, end, color=color)
 
+        added_edges += replacements
         replacements = [replace_edge_with_two(5)]
 
         self.play(*[
@@ -155,3 +164,13 @@ class K5OnTorus(OurGraphTheory):
         ], run_time = 1.3)        
                 
         self.wait(3)
+
+        added_edges += replacements
+
+        erase_anims = self.erase(op.itemgetter(0,1,2,3,4,7,9)(self.edges), play=False)
+        erase_anims += self.erase(self.vertices, play=False)
+        erase_anims += [Uncreate(e) for e in sum(added_edges, [])]
+        erase_anims += [Uncreate(e) for e in arrows]
+        erase_anims += [Uncreate(e) for e in [l1, l2, l3, l4, l5, l6]]
+        self.play(*erase_anims)
+        self.wait()
