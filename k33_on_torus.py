@@ -38,17 +38,24 @@ class K33OnTorus(OurGraphTheory):
 
         torus_creation_time = 1.5
         
+        l1 = Line((-3, 0, 0), (-3, 3, 0), color=PINK)
+        l2 = Line((-3, 0, 0), (-3,-3, 0), color=PINK)
+        l3 = Line((-3, 3, 0), (3, 3, 0), color=PINK)
+        l4 = Line((-3,-3, 0), (3,-3, 0), color=PINK)
+        l5 = Line((3, 3, 0), (3, 0, 0), color=PINK)
+        l6 = Line((3,-3, 0), (3, 0, 0), color=PINK)
+
         self.play(*[
-            ShowCreation(Line((-3, 0, 0), (-3, 3, 0), color=PINK)),
-            ShowCreation(Line((-3, 0, 0), (-3,-3, 0), color=PINK))
+            ShowCreation(l1),
+            ShowCreation(l2)
             ], run_time = torus_creation_time / 6)
         self.play(*[
-            ShowCreation(Line((-3, 3, 0), (3, 3, 0), color=PINK)),
-            ShowCreation(Line((-3,-3, 0), (3,-3, 0), color=PINK))
+            ShowCreation(l3),
+            ShowCreation(l4)
             ], run_time = 2 * torus_creation_time / 6)
         self.play(*[
-            ShowCreation(Line((3, 3, 0), (3, 0, 0), color=PINK)),
-            ShowCreation(Line((3,-3, 0), (3, 0, 0), color=PINK))
+            ShowCreation(l5),
+            ShowCreation(l6)
             ], run_time = torus_creation_time / 6)
         arrows = [ArrowTip() for x in range(4)]
         [arr.set_color(PINK) for arr in arrows]
@@ -65,8 +72,11 @@ class K33OnTorus(OurGraphTheory):
             Write(arrow) for arrow in arrows
             ], run_time = 2 * torus_creation_time / 6)
 
+        edges_to_remove = []
+        
         def replace_edge_with_two(e):
             e1, e2 = edge_to_two_edges(self.edges[e])
+            edges_to_remove.extend([e1, e2])
             self.draw(e1, run_time = INSTANT)
             self.draw(e2, run_time = INSTANT)
             self.remove(self.edges[e])
@@ -125,4 +135,12 @@ class K33OnTorus(OurGraphTheory):
         ], run_time = 1.3)        
                 
             
-        self.wait(3)
+        self.wait(6)
+        self.play(*(
+            [Uncreate(e) for e in edges_to_remove] +
+            [Uncreate(v) for v in self.vertices] +
+            [Uncreate(e) for e in [l1, l2, l3, l4, l5, l6]] +
+            [Uncreate(self.edges[e]) for e in [3, 6, 7]] +
+            [Uncreate(e) for e in arrows]
+        ))
+        self.wait()
