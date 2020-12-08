@@ -339,12 +339,14 @@ class RemovableEdgeScene(OurGraphTheory):
         self.graph = RemovableEdgeGraph()
         super().construct()
 
+        self.wait(2)
+
         f1 = TextMobject("Fact 3: for some $uv \\in G$, $G - uv$ is 2-connected.")
         f1.shift(UP*3)
         f1.scale(1)
         self.play(Write(f1))
 
-        self.wait(4)
+        self.wait(6)
 
         self.shift_graph(2*LEFT + DOWN)
 
@@ -363,7 +365,7 @@ class RemovableEdgeScene(OurGraphTheory):
         instr2.shift(RIGHT*4)
         self.play(Transform(instr, instr2))
 
-        self.wait(3)
+        self.wait(1)
 
         self.erase_copy(self.edges[5])
         self.wait(0.5)
@@ -373,7 +375,7 @@ class RemovableEdgeScene(OurGraphTheory):
         self.wait(0.5)
         self.draw(self.edges[6])
 
-        self.wait(2)
+        self.wait(7)
 
         erase_anims = self.erase(self.vertices, play=False)
         erase_anims += self.erase(self.edges, play=False)

@@ -28,6 +28,7 @@ class IntroGraphScene(OurGraphTheory):
     def construct(self):
         self.graph = K33()
         super().construct()
+        self.wait(2)
 
         self.shift_graph(DOWN + LEFT*2)
 
@@ -41,7 +42,7 @@ class IntroGraphScene(OurGraphTheory):
         planar = TextMobject("Planar Graph", alignment="\\justify")
         planar.shift(RIGHT*3)
         self.play(Write(planar))
-        self.wait(2)
+        self.wait(3)
 
         self.draw(self.edges[-1])
 
@@ -54,7 +55,7 @@ class IntroGraphScene(OurGraphTheory):
         self.play(Transform(planar, nonplanar))
         self.wait(2)
         self.play(FadeOut(circle, run_time=0.5))
-        self.wait(1)
+        self.wait(2)
 
         existence = TextMobject("Are there any planar \\\\ embeddings of this graph?", alignment="\\justify")
         existence.scale(0.5)

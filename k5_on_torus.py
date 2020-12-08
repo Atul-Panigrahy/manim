@@ -173,4 +173,31 @@ class K5OnTorus(OurGraphTheory):
         erase_anims += [Uncreate(e) for e in arrows]
         erase_anims += [Uncreate(e) for e in [l1, l2, l3, l4, l5, l6]]
         self.play(*erase_anims)
-        self.wait()
+        self.wait(2)
+
+class TopologicalMinorScene(Scene):
+    def construct(self):
+        super().construct()
+
+        self.wait(3)
+
+        f1 = TextMobject("Kuratowski's Theorem: \\\\ A graph is nonplanar $\\Longleftrightarrow$ it has a subgraph \\\\ which is a subdivision of $K_5$ or $K_{3,3}$")
+        f1.shift(UP*2.5)
+        f1.scale(1)
+        self.play(Write(f1))
+
+        f2 = TextMobject("This allows us to describe \\emph{exactly} which graphs \\\\ can and cannot be embedded in the plane!")
+        f2.scale(1).next_to(f1, DOWN*4)
+        self.play(Write(f2))
+
+        self.wait(4)
+
+        f3 = TextMobject("Which graphs can be embedded into \\\\ other topological spaces?")
+        f3.scale(1).next_to(f2, DOWN*4)
+        self.play(Write(f3))
+
+        self.wait(14)
+
+        self.play(*[FadeOut(e) for e in [f1,f2,f3]])
+
+        self.wait(1)

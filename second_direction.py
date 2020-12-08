@@ -6,7 +6,7 @@ class SecondDirectionScene(Scene):
 
         self.wait()
 
-        f1 = TextMobject("$G$ is nonplanar  $\\Longrightarrow$  $G$ contains a subgraph \\\\ which is a subdivision of $K_{5}$ or $K_{3,3}.$")
+        f1 = TextMobject("$G$ is nonplanar  $\\implies$  $G$ contains a subgraph \\\\ which is a subdivision of $K_{5}$ or $K_{3,3}.$")
         f1.scale(1).shift(UP*2)
         self.play(Write(f1))
 
