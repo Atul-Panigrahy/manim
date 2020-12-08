@@ -33,11 +33,11 @@ class CutVertexScene(OurGraphTheory):
         self.play(FadeOut(title))
 
 
-        f1 = TextMobject("Definition: a graph is $2$-connected if it cannot be \\\\ disconnected by removing a single vertex.")
-        f1.shift(UP*3)
+        f1 = TextMobject("Definition: a graph is $2$-connected if it \\\\ cannot be separated into two components \\\\ by removing a single vertex.")
+        f1.shift(UP*2.6)
         f1.scale(1)
         self.play(Write(f1))
-        self.wait(2)
+        self.wait(3)
 
         self.shift_graph(2*LEFT + DOWN)
 
@@ -47,7 +47,7 @@ class CutVertexScene(OurGraphTheory):
         connected = TextMobject("2-connected.")
         connected.next_to(self.edges[4], RIGHT*8)
         self.play(Write(connected))
-        self.wait(3)
+        self.wait(2)
 
         self.erase([self.vertices[-1]] + self.edges[-3:])
 
@@ -55,13 +55,13 @@ class CutVertexScene(OurGraphTheory):
         not_connected.next_to(self.edges[4], RIGHT*8)
         self.play(Transform(connected, not_connected))
 
-        self.wait(3)
+        self.wait(1.5)
     
         self.accent_vertices([self.vertices[2]])
 
         self.erase([self.vertices[2], self.edges[1], self.edges[2], self.edges[3], self.edges[5]])
 
-        self.wait(2)
+        self.wait(7)
 
         anims = self.erase(self.vertices+self.edges+[connected], play=False)
         anims += [FadeOut(f1)]

@@ -19,13 +19,14 @@ class OutroSlide(Scene):
     def construct(self):
         credit = TextMobject("Credits").scale(1.5).to_edge(UP)
         credit_list = BulletedList(
-            " 3Blue1Brown: for the manim Python library",
-            " Mary Radcliffe: for the notes on Kuratowski's Theorem",
-            " Prof. Bena Tshishiku: for mentorship",
-            " Artist: for Music",
+            " Prof. Bena Tshishiku: for mentorship.",
+            " 3Blue1Brown: for the manim Python library.",
+            " Mary Radcliffe: for the notes on Kuratowski's Theorem.",
+            " Music from Ambient 1 by Brian Eno",
         ).scale(0.8)
         credit_links = TextMobject("https://github.com/3b1b/manim \\\\ http://www.math.cmu.edu/$\\sim$ mradclif/teaching/228F16/Kuratowski.pdf").next_to(credit_list, DOWN*4).scale(0.7)
+        self.wait()
         self.play(Write(credit), Write(credit_list), Write(credit_links))
-        self.wait(5)
+        self.wait(15)
         self.play(Uncreate(credit), Uncreate(credit_list), Uncreate(credit_links))
         self.wait()

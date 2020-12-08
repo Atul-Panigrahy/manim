@@ -1282,7 +1282,7 @@ class ComplexExponentiation(Scene):
         self.imag_exponent = imag_part
 
     def add_on_planes(self):
-        left_plane = NumberPlane(x_radius = (FRAME_X_RADIUS-1)/2)
+        left_plane = ComplexPlane(x_radius = (FRAME_X_RADIUS-1)/2)
         left_plane.to_edge(LEFT, buff = 0)
         imag_line = Line(DOWN, UP).scale(FRAME_Y_RADIUS)
         imag_line.set_color(YELLOW).fade(0.3)
@@ -1293,7 +1293,7 @@ class ComplexExponentiation(Scene):
         left_title.set_color(YELLOW)
         left_title.next_to(left_plane.get_top(), DOWN)
 
-        right_plane = NumberPlane(x_radius = (FRAME_X_RADIUS-1)/2)
+        right_plane = ComplexPlane(x_radius = (FRAME_X_RADIUS-1)/2)
         right_plane.to_edge(RIGHT, buff = 0)
         unit_circle = Circle()
         unit_circle.set_color(MAROON_B).fade(0.3)
@@ -1308,13 +1308,13 @@ class ComplexExponentiation(Scene):
             labels = VGroup()
             for x in range(-2, 3):
                 label = TexMobject(str(x))
-                label.move_to(plane.num_pair_to_point((x, 0)))
+                label.move_to(plane.number_to_point(complex(x, 0)))
                 labels.add(label)
             for y in range(-3, 4):
                 if y == 0:
                     continue
                 label = TexMobject(str(y) + "i")
-                label.move_to(plane.num_pair_to_point((0, y)))
+                label.move_to(plane.number_to_point(complex(0, y)))
                 labels.add(label)
             for label in labels:
                 label.scale_in_place(0.5)
@@ -1398,7 +1398,7 @@ class ComplexExponentiation(Scene):
             plane = self.left_plane
         else:
             plane = self.right_plane
-        return plane.num_pair_to_point((z.real, z.imag))
+        return plane.number_to_point(complex(z.real, z.imag))
 
 class SizeAndRotationBreakdown(Scene):
     def construct(self):
@@ -1620,7 +1620,7 @@ class VisualizingSSquared(ComplexTransformationScene):
         self.add_title()
         self.plug_in_specific_values()
         self.show_transformation()
-        self.comment_on_two_dimensions()
+        #self.comment_on_two_dimensions()
 
     def add_title(self):
         title = TexMobject("f(", "s", ") = ", "s", "^2")
@@ -1634,29 +1634,29 @@ class VisualizingSSquared(ComplexTransformationScene):
         self.title = title
 
     def plug_in_specific_values(self):
-        inputs = list(map(complex, [2, -1, complex(0, 1)]))
+        inputs = list(map(complex, [2, complex(2, 2), complex(0.1, 0.1)]))
         input_dots  = VGroup(*[
             Dot(self.z_to_point(z), color = YELLOW)
             for z in inputs
         ])
         output_dots = VGroup(*[
-            Dot(self.z_to_point(z**2), color = BLUE)
+            Dot(self.z_to_point((z**4-complex(0,1))/(z**4+complex(0,1))), color = BLUE)
             for z in inputs
         ])
         arrows = VGroup()
         VGroup(*[
             ParametricFunction(
-                lambda t : self.z_to_point(z**(1.1+0.8*t))
+                lambda t : self.z_to_point(z*(1-t) + t*(z**4-complex(0,1))/(z**4+complex(0,1)))
             )
             for z in inputs
         ])
         for z, dot in zip(inputs, input_dots):
             path = ParametricFunction(
-                lambda t : self.z_to_point(z**(1+t))
+                lambda t : self.z_to_point(z*(1-t) + t*(z**4-complex(0,1))/(z**4+complex(0,1)))
             )
             dot.path = path
             arrow = ParametricFunction(
-                lambda t : self.z_to_point(z**(1.1+0.8*t))
+                lambda t : self.z_to_point(z*(1-t) + t*(z**4-complex(0,1))/(z**4+complex(0,1)))
             )
             stand_in_arrow = Arrow(
                 arrow.points[-2], arrow.points[-1],
@@ -1682,11 +1682,11 @@ class VisualizingSSquared(ComplexTransformationScene):
 
     def add_transformable_plane(self, **kwargs):
         ComplexTransformationScene.add_transformable_plane(self, **kwargs)
-        self.plane.next_to(ORIGIN, UP, buff = 0.01)
-        self.plane.add(self.plane.copy().rotate(np.pi, RIGHT))
+        #self.plane.next_to(ORIGIN, UP, buff = 0.01)
+        #self.plane.add(self.plane.copy().rotate(np.pi, RIGHT))
         self.plane.add(
             Line(ORIGIN, FRAME_X_RADIUS*RIGHT, color = self.horiz_end_color),
-            Line(ORIGIN, FRAME_X_RADIUS*LEFT, color = self.horiz_end_color),
+            Line(ORIGIN, FRAME_Y_RADIUS*RIGHT + FRAME_Y_RADIUS*UP, color = self.horiz_end_color),
         )
         self.add(self.plane)
 
@@ -1696,7 +1696,7 @@ class VisualizingSSquared(ComplexTransformationScene):
 
         self.wait()
         self.apply_complex_homotopy(
-            lambda z, t : z**(1+t),
+            lambda z, t : z*(1-t) + t*(z**4 + complex(0,-1))/(z**4 + complex(0,1)),
             added_anims = [
                 MoveAlongPath(dot, dot.path, run_time = 5)
                 for dot in self.input_dots
