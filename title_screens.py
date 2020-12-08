@@ -30,3 +30,22 @@ class OutroSlide(Scene):
         self.wait(15)
         self.play(Uncreate(credit), Uncreate(credit_list), Uncreate(credit_links))
         self.wait()
+
+
+class OutlineSlide(Scene):
+    def construct(self):
+        prelim_title = TextMobject("Outline:").to_edge(UP)
+
+        prelim = BulletedList(
+            " Statement of the Theorem",
+            " Graph Theory Background",
+            " Proof of the Theorem",
+            " Related Topics",
+        )#.next_to(prelim_title, DOWN * 4)
+        self.play(Write(prelim_title), Write(prelim))
+        self.wait(10)
+        self.play(*[
+            FadeOut(t)
+            for t in [prelim, prelim_title]
+            ])
+        self.wait()

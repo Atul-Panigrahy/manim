@@ -203,7 +203,7 @@ class K5_Nonplanar(OurGraphTheory):
         eulers_form = TextMobject("$V - E + F = 2$")
         eulers_form.shift(LEFT * 4.5 + UP * 2.5)
         self.play(Write(eulers_form))
-        self.wait(2.5)
+        self.wait(2)
         removals.append(eulers_form)
         
         # V = 6
@@ -211,7 +211,7 @@ class K5_Nonplanar(OurGraphTheory):
         eulers_form = TextMobject("$5 - E + F = 2$")
         eulers_form.shift(LEFT * 4.5 + UP * 1.5)
         self.play(Write(eulers_form))
-        self.wait(2.5)
+        self.wait(2)
         removals.append(eulers_form)
 
         # E = 9
@@ -219,14 +219,14 @@ class K5_Nonplanar(OurGraphTheory):
         eulers_form = TextMobject("$5 - 10 + F = 2$")
         eulers_form.shift(LEFT * 4.5 + UP * 0.5)
         self.play(Write(eulers_form))
-        self.wait(2.5)
+        self.wait(1.5)
         removals.append(eulers_form)
         
         # F = 5
         eulers_form = TextMobject("$F = 7$")
         eulers_form.shift(LEFT * 4.5 + DOWN * 0.5)
         self.play(Write(eulers_form))
-        self.wait(2.5)
+        self.wait(1.5)
         removals.append(eulers_form)
         
         
@@ -259,7 +259,7 @@ class K5_Nonplanar(OurGraphTheory):
         edges_faces = TextMobject("$3F \leq 2E$")
         edges_faces.shift(RIGHT * 4.5 + UP * 1.5)
         self.play(Write(edges_faces))    
-        self.wait(1.5)
+        self.wait(3)
         removals.append(edges_faces)
         
         # E = 9
@@ -267,13 +267,13 @@ class K5_Nonplanar(OurGraphTheory):
         edges_faces = TextMobject("$3F \leq 2*10$")
         edges_faces.shift(RIGHT * 4.5 + UP * 0.5)
         self.play(Write(edges_faces))
-        self.wait(1.5)
+        self.wait(1)
         removals.append(edges_faces)
 
         edges_faces = TextMobject("$F \leq \\frac{20}{3}$")
         edges_faces.shift(RIGHT * 4.5 + DOWN * 0.5)
         self.play(Write(edges_faces))
-        self.wait(2.5)
+        self.wait(2)
         removals.append(edges_faces)
 
         #thus 4f <= 2e gives f <= 3
