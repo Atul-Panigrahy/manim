@@ -1,3 +1,5 @@
+NOTE: this is a personal fork of the manim project being used for school projects. See the original repo for something less messy, or check out our code examples.
+
 ![logo](logo/cropped.png)
 
 [![Build Status](https://travis-ci.org/3b1b/manim.svg?branch=master)](https://travis-ci.org/3b1b/manim)
