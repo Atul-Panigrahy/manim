@@ -6,7 +6,7 @@ import numpy as np
 import random
 
 from manimlib.imports import *
-from our_discrete_graph_scene import *
+from kuratowski.our_discrete_graph_scene import *
 
 
 

@@ -7,8 +7,8 @@ import numpy as np
 import random
 
 from manimlib.imports import *
-from our_discrete_graph_scene import *
-from k3_3 import K33
+from kuratowski.our_discrete_graph_scene import *
+from kuratowski.k3_3 import K33
 
 
 class makeText(Scene):
